@@ -32,4 +32,11 @@ final meals = [
     timeTaken:"19:00",
     imagePath: "images/soup.png",
   ),
+  Meal(
+    mealTime:"Akşam Yemeği",
+    name:"Dana Rosto",
+    kiloCalories:"472",
+    timeTaken:"19:30",
+    imagePath: "images/soup.png",
+  ),
 ];
