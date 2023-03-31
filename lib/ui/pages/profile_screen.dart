@@ -9,6 +9,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     final today = DateTime.now();
 
     return Scaffold(
@@ -84,11 +85,54 @@ class ProfileScreen extends StatelessWidget {
                       ),),
                       trailing: ClipOval(child: Image.asset("images/canozdemir.png")),
                     ),
-                    SizedBox(height: 15),
-                    _RadialProgress(
-                      width:  180,
-                      height: 180, 
-                      progress: 0.7,  
+                    SizedBox(height: 20),
+                    Row(
+                      children: <Widget>[
+                        _RadialProgress(
+                          width:  width * 0.4,
+                          height: width * 0.4, 
+                          progress: 0.7,  
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            _IngredientProgress(
+                              ingredient: "Protein",
+                              leftAmount: 75, 
+                              progress: 0.6, 
+                              progressColor: Colors.green,
+                              width: width * 0.28,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+
+                            _IngredientProgress(
+                              ingredient: "Karbonhidrat", 
+                              leftAmount: 254, 
+                              progress: 0.4, 
+                              progressColor: Colors.red,
+                              width: width * 0.28,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+
+                            _IngredientProgress(
+                              ingredient: "Yağ", 
+                              leftAmount: 63, 
+                              progress: 0.8, 
+                              progressColor: Colors.yellow,
+                              width: width * 0.28,
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                   ],
                 ),
@@ -168,6 +212,59 @@ class ProfileScreen extends StatelessWidget {
             ),
         ],
       ),
+    );
+  }
+}
+
+class _IngredientProgress extends StatelessWidget {
+
+  final String ingredient;
+  final int leftAmount;
+  final double progress, width;
+  final Color progressColor;
+
+  const _IngredientProgress({Key? key, required this.ingredient, required this.leftAmount, required this.progress, required this.progressColor, required this.width}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(ingredient.toUpperCase(), style: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              Container(
+                height: 10,
+                width: width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5)),color: Colors.black12,
+                ),
+              ),
+               Container(
+                height: 10,
+                width: width * progress,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5)),
+                    color: progressColor,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(width: 10),
+          Text("${leftAmount} g left"),
+        ],
+      ),
+      ],
     );
   }
 }
