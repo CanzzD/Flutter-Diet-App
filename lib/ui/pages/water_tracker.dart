@@ -48,11 +48,6 @@ class WaterTrackerScreen extends StatelessWidget {
                     ),
                     trailing: Column(
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Icon(Icons.access_time)
-                          ],
-                        ),
                       ],
                     ),
               ),

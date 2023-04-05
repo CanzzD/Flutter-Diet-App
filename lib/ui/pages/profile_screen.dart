@@ -165,6 +165,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    //MEAL-CARD-AREA
                     Expanded(
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
@@ -179,6 +180,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height:15),
+                    //WATER-TRACKER-AREA
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
