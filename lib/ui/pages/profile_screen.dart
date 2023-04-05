@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_diet_app/model/meal.dart';
+import 'package:flutter_diet_app/ui/pages/water_tracker.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 import 'package:intl/intl.dart';
 
@@ -74,7 +75,8 @@ class ProfileScreen extends StatelessWidget {
                         style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 18, 
-                      ),),
+                      ),
+                      ),
 
                       subtitle: Text(
                         "Hello, Can",
@@ -178,31 +180,38 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     SizedBox(height:15),
                     Expanded(
-                      child: Container(
-                        margin: const EdgeInsets.only(bottom: 10, left: 32, right: 32),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                            const Color(0xFF20008C),
-                            const Color(0xFF200087),
-                          ],
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => WaterTrackerScreen()
                           ),
-                        ),
-                        child: Column(
-                          children: <Widget>[
-                            Text(
-                              "BUGÜN NE KADAR SU İÇTİM?",
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                              ),
-                            Row(
-
+                        );
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 10, left: 32, right: 32),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                              const Color(0xFF20008C),
+                              const Color(0xFF200087),
+                            ],
                             ),
-                          ],
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                "BUGÜN NE KADAR SU İÇTİM?",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                                ),
+                              Row(
+                      
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
