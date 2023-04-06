@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_diet_app/model/meal.dart';
 import 'package:flutter_diet_app/ui/pages/water_tracker.dart';
+import 'package:flutter_rounded_progress_bar/flutter_rounded_progress_bar.dart';
+import 'package:flutter_rounded_progress_bar/rounded_progress_bar_style.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 import 'package:intl/intl.dart';
 
@@ -184,7 +186,7 @@ class ProfileScreen extends StatelessWidget {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => WaterTrackerScreen()
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => (WaterTrackerScreen())
                           ),
                         );
                         },
@@ -196,8 +198,8 @@ class ProfileScreen extends StatelessWidget {
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                               colors: [
-                              const Color(0xFF20008C),
-                              const Color(0xFF200087),
+                              Colors.white,
+                              Colors.blue.shade800,
                             ],
                             ),
                           ),
@@ -206,12 +208,19 @@ class ProfileScreen extends StatelessWidget {
                               Text(
                                 "BUGÜN NE KADAR SU İÇTİM?",
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.blue.shade800,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
                                 ),
                                 ),
-                              Row(
-                      
-                              ),
+                                //WATER PROGRESS BAR
+                                SizedBox(height: 40,),
+
+                                 Padding(
+                                   padding: const EdgeInsets.all(15.0),
+                                   child: _WaterProgressBar(height: 0.1, width: 0.1, percent: 10),
+                                 ),
+                              Row(),
                             ],
                           ),
                         ),
@@ -436,5 +445,24 @@ class _MealCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+class _WaterProgressBar extends StatelessWidget {
+
+   double percent,height, width;
+
+   _WaterProgressBar({Key? key, required this.height, required this.width, required this.percent}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+              children: <Widget>[
+                RoundedProgressBar(
+                    childLeft: Text("$percent%",
+                    style: TextStyle(color: Colors.white),),
+                    percent: percent,
+                    theme: RoundedProgressBarTheme.yellow,),
+                ],
+          );
   }
 }
