@@ -198,8 +198,8 @@ class ProfileScreen extends StatelessWidget {
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                               colors: [
-                              Colors.white,
-                              Colors.blue.shade800,
+                              Color.fromARGB(255, 220, 225, 222),
+                              Colors.blue.shade900,
                             ],
                             ),
                           ),
@@ -208,7 +208,7 @@ class ProfileScreen extends StatelessWidget {
                               Text(
                                 "BUGÜN NE KADAR SU İÇTİM?",
                                 style: TextStyle(
-                                  color: Colors.blue.shade800,
+                                  color: Colors.blue.shade900,
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -218,7 +218,7 @@ class ProfileScreen extends StatelessWidget {
 
                                  Padding(
                                    padding: const EdgeInsets.all(15.0),
-                                   child: _WaterProgressBar(height: 0.1, width: 0.1, percent: 10),
+                                   child: _WaterProgressBar(height: 0.1, width: 0.1, percent: 0),
                                  ),
                               Row(),
                             ],
@@ -447,6 +447,7 @@ class _MealCard extends StatelessWidget {
     );
   }
 }
+
 class _WaterProgressBar extends StatelessWidget {
 
    double percent,height, width;
@@ -461,7 +462,7 @@ class _WaterProgressBar extends StatelessWidget {
                     childLeft: Text("$percent%",
                     style: TextStyle(color: Colors.white),),
                     percent: percent,
-                    theme: RoundedProgressBarTheme.yellow,),
+                    theme: RoundedProgressBarTheme.blue,),
                 ],
           );
   }

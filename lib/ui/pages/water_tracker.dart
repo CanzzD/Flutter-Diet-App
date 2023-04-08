@@ -12,7 +12,7 @@ class WaterTrackerScreen extends StatelessWidget {
     final today =DateTime.now();
 
     return Scaffold(
-      backgroundColor: Colors.blue.shade800,
+      backgroundColor: Colors.blue.shade900,
       body: Column(
         children: 
          [Padding(
@@ -43,7 +43,8 @@ class WaterTrackerScreen extends StatelessWidget {
                           color: Colors.white, 
                         ),
                       ),
-                      subtitle: Text("Water-Tracker-Demo",
+                      subtitle: Text(
+                        "Su İzleyici",
                           style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 24,
@@ -86,77 +87,136 @@ class __WaterProgressBar1State extends State<_WaterProgressBar1> {
                 SizedBox(height: 10,),
 
                 Text(
-                  "İçtiğiniz Bardak Sular %10  \n      Şişe Sular İse Sizi %20 İleri Taşır",
+                  "Hedefini Tamamlamak İçin Barı Doldurmalısın",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
 
                 SizedBox(height: 60,),
 
                 RoundedProgressBar(
-                    childLeft: Text("$percent%                                                BAŞARABİLİRSİN!!!",
-                    style: TextStyle(color: Colors.white),),
+                    childLeft: Text("                Günlük Hedefiniz 2500mL(2.5L)",
+                    style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
                     percent: percent,
-                    theme: RoundedProgressBarTheme.yellow,),
+                    theme: RoundedProgressBarTheme.blue),
                     SizedBox(height: 40,),
 
-                Row(
-                  children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right:130.0),
-                          child: TextButton(
-                          onPressed: () {setState(() {
-                            percent = percent + 10;
-                          });}, 
-                          child: Text(
-                            "Bardak Su",
-                            style: TextStyle(
-                              fontSize: 35,
-                              color: Colors.white,
-                            ),
-                            ))
+
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                              Colors.blue.shade800,
+                              Color.fromARGB(255, 192, 21, 126),
+                            ],
+                      )
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(padding: EdgeInsets.only(right: 15),
+                      child: Text(
+                        "Bardak Su",
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right:0.0),
-                      child: IconButton(icon: Icon(Icons.remove),iconSize: 50,color: Colors.white, onPressed: () {setState(() {
-                                      percent = percent - 10;
-                                    });},),
-                    ), 
-                  ],
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right:130.0),
+                                child: TextButton(
+                                onPressed: () {setState(() {
+                                  percent = percent + 10;
+                                });}, 
+                                child: Text(
+                                  "250mL(0.25L)",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                  ),
+                                  ))
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left:35.0),
+                            child: IconButton(icon: Icon(Icons.remove),iconSize: 50,color: Colors.white, onPressed: () {setState(() {
+                                            percent = percent - 10;
+                                          });},),
+                          ), 
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                Row(
-                  children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right:180.0),
-                          child: TextButton(
-                          onPressed: () {setState(() {
-                            percent = percent + 20;
-                          });}, 
-                          child: Text(
-                            "Şişe Su",
-                            style: TextStyle(
-                              fontSize: 35,
-                              color: Colors.white,
-                            ),
-                            ))
+
+                SizedBox(height: 20,),
+
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                              Colors.blue.shade800,
+                              Color.fromARGB(255, 192, 21, 126),
+                            ],
+                      )
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(padding: EdgeInsets.only(right: 17),
+                      child: Text(
+                        "Şişe Su",
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right:0.0),
-                      child: IconButton(icon: Icon(Icons.remove),iconSize: 50,color: Colors.white, onPressed: () {setState(() {
-                                      percent = percent - 20;
-                                    });},),
-                    ), 
-                  ],
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right:180.0),
+                                child: TextButton(
+                                onPressed: () {setState(() {
+                                  percent = percent + 20;
+                                });}, 
+                                child: Text(
+                                  "200mL(0.5L)",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                  ),
+                                  ))
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left:0.0),
+                            child: IconButton(icon: Icon(Icons.remove),iconSize: 50,color: Colors.white, onPressed: () {setState(() {
+                                            percent = percent - 20;
+                                          });},),
+                          ), 
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 ],
           );
