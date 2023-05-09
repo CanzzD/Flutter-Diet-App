@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>290753870286-gdutdt4a12jhgsgs7q3kgamffnjjgr9t.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.290753870286-gdutdt4a12jhgsgs7q3kgamffnjjgr9t</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA0BhlGIa1LSHYXiLR1Q76cSYAhSZ4T-dY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>290753870286</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.flutterDietApp</string>
+	<key>PROJECT_ID</key>
+	<string>flutter-diet-firebase</string>
+	<key>STORAGE_BUCKET</key>
+	<string>flutter-diet-firebase.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:290753870286:ios:725da8384ba2524b38139f</string>
+</dict>
+</plist>

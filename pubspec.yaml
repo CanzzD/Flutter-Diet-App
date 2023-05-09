@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   intl: ^0.18.0
   flutter_rounded_progress_bar: ^0.2.0
+  firebase_core: ^2.11.0
 
 dev_dependencies:
   flutter_test:

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "290753870286",
+    "project_id": "flutter-diet-firebase",
+    "storage_bucket": "flutter-diet-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290753870286:android:686c89fdcaf92ea338139f",
+        "android_client_info": {
+          "package_name": "com.example.flutter_diet_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "290753870286-sge1q0bhmak1knlne036osjj6in4cdp7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5SBkJZLAaK3cUDO85gHBywLNLG8J_HPY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "290753870286-sge1q0bhmak1knlne036osjj6in4cdp7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
