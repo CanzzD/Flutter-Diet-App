@@ -198,7 +198,7 @@ class __WaterProgressBar1State extends State<_WaterProgressBar1> {
                                   percent = percent + 20;
                                 });}, 
                                 child: Text(
-                                  "200mL(0.5L)",
+                                  "500mL(0.5L)",
                                   style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.white,

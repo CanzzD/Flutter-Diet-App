@@ -16,7 +16,7 @@ class ProfileScreen extends StatelessWidget {
     final today = DateTime.now();
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 220, 225, 222),
+      backgroundColor: const Color(0xFFE9E9E9),
       bottomNavigationBar: ClipRRect(
         borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
         child: BottomNavigationBar(
@@ -34,7 +34,7 @@ class ProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Icon(Icons.home ),
               ),
-              label: "Home",
+              label: "Anasayfa",
              ),
       
             BottomNavigationBarItem(
@@ -42,7 +42,7 @@ class ProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Icon(Icons.search),
               ),
-              label: "Search",
+              label: "Besin Ara",
              ),
       
             BottomNavigationBarItem(
@@ -50,7 +50,7 @@ class ProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Icon(Icons.person),
               ),
-              label: "Person",
+              label: "Kullanıcı Paneli",
              ),
           ],
           ),
@@ -81,7 +81,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
 
                       subtitle: Text(
-                        "Hello, Can",
+                        "Merhaba, Can",
                         style:  TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: 26,
@@ -167,6 +167,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    
                     //MEAL-CARD-AREA
                     Expanded(
                       child: SingleChildScrollView(
@@ -182,6 +183,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height:15),
+
                     //WATER-TRACKER-AREA
                     Expanded(
                       child: GestureDetector(
@@ -191,7 +193,7 @@ class ProfileScreen extends StatelessWidget {
                         );
                         },
                         child: Container(
-                          margin: const EdgeInsets.only(bottom: 10, left: 32, right: 32),
+                          margin: const EdgeInsets.only(bottom: 20, left: 27, right: 27),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(30)),
                             gradient: LinearGradient(
@@ -199,22 +201,25 @@ class ProfileScreen extends StatelessWidget {
                               end: Alignment.bottomCenter,
                               colors: [
                               Color.fromARGB(255, 220, 225, 222),
-                              Colors.blue.shade900,
+                              Color(0xFF2000980),
                             ],
                             ),
                           ),
                           child: Column(
                             children: <Widget>[
-                              Text(
-                                "BUGÜN NE KADAR SU İÇTİM?",
-                                style: TextStyle(
-                                  color: Colors.blue.shade900,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                ),
+                              Padding(
+                                padding: const EdgeInsets.only(top:25.0),
+                                child: Text(
+                                  "BUGÜN NE KADAR SU İÇTİM?",
+                                  style: TextStyle(
+                                    color: Color(0xFF2000980),
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  ),
+                              ),
                                 //WATER PROGRESS BAR
-                                SizedBox(height: 40,),
+                                SizedBox(height: 30,),
 
                                  Padding(
                                    padding: const EdgeInsets.all(15.0),
@@ -281,7 +286,7 @@ class _IngredientProgress extends StatelessWidget {
             ],
           ),
           SizedBox(width: 10),
-          Text("${leftAmount} g left"),
+          Text("${leftAmount} gram "),
         ],
       ),
       ],

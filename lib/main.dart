@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_diet_app/ui/pages/login_page.dart';
 import 'package:flutter_diet_app/ui/pages/profile_screen.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ProfileScreen(),
+      home: LoginPage(),
     );
   }
 }
