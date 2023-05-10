@@ -15,7 +15,7 @@ class _RegisterPageState extends State<RegisterPage> {
       body: Column(
         children: [Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: 0.0,
+            horizontal: 10.0,
             vertical: 50.0
           ),
           child: Column(
@@ -32,7 +32,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                     ),
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 120),
                 ListTile(
                     title: Text("NEREDEYSE OLDU",style: TextStyle(
                       fontWeight: FontWeight.w900,
@@ -44,6 +44,83 @@ class _RegisterPageState extends State<RegisterPage> {
                       fontSize: 20,
                       color: Colors.white,
                     ),),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 32.0),
+                      TextField(
+                        decoration: InputDecoration(
+                          hintText: 'E-posta',
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(1),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16.0),
+                      TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Şifre',
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(1),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        obscureText: true,
+                      ),
+                      SizedBox(height: 16.0),
+                      TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Boy(cm)',
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(1),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16.0),
+                      TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Kilo(Kg)',
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(1),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                      ),
+                    
+                      SizedBox(height: 25.0),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.amber,
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                // REGİSTER BUTTON
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal:160.0),
+                                child: Text('Üye ol',style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      
+                    ],
                   ),
             ],
           ),
