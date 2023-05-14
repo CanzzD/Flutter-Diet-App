@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_diet_app/service/auth_service.dart';
+import 'package:flutter_diet_app/ui/pages/profile_screen.dart';
 import 'package:flutter_diet_app/ui/pages/register_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,6 +15,7 @@ class _LoginPageState extends State<LoginPage> {
   late String email, password, bodyweight, height;
   final formkey = GlobalKey<FormState>();
   final firebaseAuth = FirebaseAuth.instance;
+  final authService = AuthService();
 
 
   @override
@@ -100,15 +103,19 @@ class _LoginPageState extends State<LoginPage> {
                                 onPressed: () async {
                                   if (formkey.currentState!.validate()) {
                                     formkey.currentState!.save();
-                                    try {
-                                      final userResult = await firebaseAuth.signInWithEmailAndPassword(
-                                          email: email, password: password);
-                                          Navigator.pushReplacementNamed(context, "/profileScreen");
-                                      print(userResult.user!.email); 
-                                    } catch (e) {
-                                      print(e.toString()); 
+                                    final result = await authService.signIn(email, password);
+                                    if (result == "success") {
+                                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ProfileScreen()), (route) => false);
+                                    } else {
+                                      showDialog(
+                                        context: context, 
+                                        builder: (context) {
+                                          return AlertDialog(
+                                        title: Text("Hata"),
+                                        content: Text(result!),
+                                        );
+                                      });
                                     }
-                             
                                   } else {
                                     
                                   }
