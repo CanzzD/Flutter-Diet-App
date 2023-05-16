@@ -12,7 +12,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
 
-  late String email, password, bodyweight, height;
+  late String email, password, bodyWeight, height, name, surname;
   final formkey = GlobalKey<FormState>();
   final firebaseAuth = FirebaseAuth.instance;
   final authService = AuthService();
@@ -56,7 +56,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               } else {}
                             },
                             onSaved: (value) {
-                              height = value!;
+                              name = value!;
                             },
                             decoration: InputDecoration(
                               hintText: 'Ad',
@@ -75,7 +75,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               } else {}
                             },
                             onSaved: (value) {
-                              height = value!;
+                              surname = value!;
                             },
                             decoration: InputDecoration(
                               hintText: 'Soyad',
@@ -152,7 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               } else {}
                             },
                             onSaved: (value) {
-                              bodyweight = value!;
+                              bodyWeight = value!;
                             },
                             decoration: InputDecoration(
                               hintText: 'Kilo(Kg)',
@@ -164,6 +164,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                     
+
                           //SIGN UP BUTTON
                           SizedBox(height: 25.0),
                           Container(
@@ -179,7 +180,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   onPressed: () async {
                                     if (formkey.currentState!.validate()) {
                                       formkey.currentState!.save();
-                                      final result = await authService.signUp(email, password);
+                                      final result = await authService.signUp(email, password, name, surname, bodyWeight, height);
                                       if (result == "success") {
                                         ScaffoldMessenger.of(context).showSnackBar(
                                           SnackBar(content: Text("Aramıza Hoşgeldiniz. Giriş Yapabilirsiniz")));
