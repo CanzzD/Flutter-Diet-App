@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_diet_app/ui/pages/profile_screen.dart';
 import 'package:flutter_diet_app/ui/pages/search_page.dart';

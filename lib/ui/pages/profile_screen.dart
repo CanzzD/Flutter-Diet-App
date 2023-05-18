@@ -1,14 +1,45 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_diet_app/model/meal.dart';
-import 'package:flutter_diet_app/ui/pages/search_page.dart';
-import 'package:flutter_diet_app/ui/pages/user_page.dart';
 import 'package:flutter_diet_app/ui/pages/water_tracker.dart';
 import 'package:flutter_rounded_progress_bar/flutter_rounded_progress_bar.dart';
 import 'package:flutter_rounded_progress_bar/rounded_progress_bar_style.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 import 'package:intl/intl.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  String userName = '';
+
+  @override
+  void initState() {
+    super.initState();
+    // Kullanıcı adını almak için Firebase kullanıcısını dinleyin
+    getUserDisplayName();
+  }
+
+  void getUserDisplayName() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // Firestore'dan kullanıcı adını almak için sorgu yapın
+      DocumentSnapshot snapshot = (await FirebaseFirestore.instance
+          .collection("User")
+          .where("email",isEqualTo: user.email)
+          .get()).docs.first;
+      
+      // Kullanıcı adını saklamak için bir değişkene atayalım
+      setState(() {
+        userName = snapshot['name'];
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +76,12 @@ class ProfileScreen extends StatelessWidget {
                       ),
 
                       subtitle: Text(
-                        "Merhaba, Can",
+                        "Merhaba  " + userName.toUpperCase(),
                         style:  TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: 26,
                         color: Colors.black,
                       ),),
-                      trailing: ClipOval(child: Image.asset("images/canozdemir.png")),
                     ),
                     SizedBox(height: 20),
                     Row(
@@ -204,6 +234,8 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
+
+
 
 class _IngredientProgress extends StatelessWidget {
 
