@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_diet_app/service/auth_service.dart';
+import 'package:flutter_diet_app/ui/pages/bottom_navbar_page.dart';
 import 'package:flutter_diet_app/ui/pages/profile_screen.dart';
 import 'package:flutter_diet_app/ui/pages/register_page.dart';
 
@@ -105,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                                     formkey.currentState!.save();
                                     final result = await authService.signIn(email, password);
                                     if (result == "success") {
-                                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ProfileScreen()), (route) => false);
+                                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => BottomNavigationBarPage()), (route) => false);
                                     } else {
                                       showDialog(
                                         context: context, 

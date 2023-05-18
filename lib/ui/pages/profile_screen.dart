@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_diet_app/model/meal.dart';
+import 'package:flutter_diet_app/ui/pages/search_page.dart';
+import 'package:flutter_diet_app/ui/pages/user_page.dart';
 import 'package:flutter_diet_app/ui/pages/water_tracker.dart';
 import 'package:flutter_rounded_progress_bar/flutter_rounded_progress_bar.dart';
 import 'package:flutter_rounded_progress_bar/rounded_progress_bar_style.dart';
@@ -17,44 +19,6 @@ class ProfileScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFFE9E9E9),
-      bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
-        child: BottomNavigationBar(
-          iconSize: 35, 
-          selectedIconTheme: IconThemeData(
-            color: const Color(0xFF200087),
-          ),
-          unselectedIconTheme: IconThemeData(
-            color: Colors.black,
-          ),
-          items: [
-      
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Icon(Icons.home ),
-              ),
-              label: "Anasayfa",
-             ),
-      
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Icon(Icons.search),
-              ),
-              label: "Besin Ara",
-             ),
-      
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Icon(Icons.person),
-              ),
-              label: "Kullanıcı Paneli",
-             ),
-          ],
-          ),
-      ),
       body: Stack(
         children: <Widget>[
           Positioned(
