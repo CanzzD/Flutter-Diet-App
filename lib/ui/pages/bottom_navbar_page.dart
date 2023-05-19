@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_diet_app/ui/pages/add_meal_data.dart';
 import 'package:flutter_diet_app/ui/pages/profile_screen.dart';
 import 'package:flutter_diet_app/ui/pages/search_page.dart';
 import 'package:flutter_diet_app/ui/pages/user_page.dart';
@@ -17,6 +18,7 @@ class _BottomNavigationBarPageState extends State<BottomNavigationBarPage> {
     ProfileScreen(),
     SearchPage(),
     UserPage(),
+    AddMealPage()
   ];
 
   int currentIndex = 0;
@@ -34,9 +36,10 @@ class _BottomNavigationBarPageState extends State<BottomNavigationBarPage> {
       bottomNavigationBar: ClipRRect(
         borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
         child: BottomNavigationBar(
+          fixedColor: Color(0xFF200087),
           onTap: onTap,
           currentIndex: currentIndex,
-          iconSize: 35, 
+          iconSize: 35,
           selectedIconTheme: IconThemeData(
             color: const Color(0xFF200087),
           ),
@@ -67,6 +70,14 @@ class _BottomNavigationBarPageState extends State<BottomNavigationBarPage> {
                 child: Icon(Icons.person),
               ),
               label: "Kullanıcı Paneli",
+             ),
+
+             BottomNavigationBarItem(
+              icon: Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Icon(Icons.add),
+              ),
+              label: "Besin Ekle",
              ),
           ],
           ),

@@ -68,5 +68,22 @@ class AuthService {
     return res;
   }
 
+  Future<String?> addMeal(String mealName, String calorie, String protein, String carbohydrate, String fat, String bodyWeight) async {
+    String? res;
 
-}
+      try {
+        final resultData = await firebaseFirestore.collection("User").add({
+          "mealName" : mealName,
+          "calorie" : calorie,
+          "protein" : protein,
+          "carbohydrate" : carbohydrate,
+          "fat" : fat,
+        });
+      } catch (e) {
+        print("$e");
+      }
+      res = "success";
+    }
+
+    
+  }
