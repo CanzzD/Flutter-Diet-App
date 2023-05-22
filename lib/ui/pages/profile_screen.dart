@@ -87,7 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Row(
                       children: <Widget>[
                         _RadialProgress(
-                          width:  width * 0.4,
+                          width:  width * 0.35,
                           height: width * 0.4, 
                           progress: 0.7,  
                         ),

@@ -134,18 +134,21 @@ class __WaterProgressBar1State extends State<_WaterProgressBar1> {
                           Row(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(right:130.0),
-                                child: TextButton(
-                                onPressed: () {setState(() {
-                                  percent = percent + 10;
-                                });}, 
+                            padding: const EdgeInsets.only(left:0.0),
+                            child: IconButton(icon: Icon(Icons.add),iconSize: 50,color: Colors.white, onPressed: () {setState(() {
+                                            percent = percent + 10;
+                                          });},),
+                          ), 
+                          SizedBox(width: 60,),
+                              Padding(
+                                padding: const EdgeInsets.only(right:0.0),
                                 child: Text(
                                   "250mL(0.25L)",
                                   style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.white,
                                   ),
-                                  ))
+                                  )
                               ),
                             ],
                           ),
@@ -177,7 +180,7 @@ class __WaterProgressBar1State extends State<_WaterProgressBar1> {
                   ),
                   child: Column(
                     children: [
-                      Padding(padding: EdgeInsets.only(right: 17),
+                      Padding(padding: EdgeInsets.only(right: 15),
                       child: Text(
                         "Şişe Su",
                         style: TextStyle(
@@ -192,23 +195,26 @@ class __WaterProgressBar1State extends State<_WaterProgressBar1> {
                           Row(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(right:180.0),
-                                child: TextButton(
-                                onPressed: () {setState(() {
-                                  percent = percent + 20;
-                                });}, 
+                            padding: const EdgeInsets.only(left:0.0),
+                            child: IconButton(icon: Icon(Icons.add),iconSize: 50,color: Colors.white, onPressed: () {setState(() {
+                                            percent = percent + 20;
+                                          });},),
+                          ), 
+                          SizedBox(width: 60,),
+                              Padding(
+                                padding: const EdgeInsets.only(right:0.0), 
                                 child: Text(
-                                  "500mL(0.5L)",
+                                  "500mL(0.50L)",
                                   style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.white,
                                   ),
-                                  ))
+                                  )
                               ),
                             ],
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left:0.0),
+                            padding: const EdgeInsets.only(left:35.0),
                             child: IconButton(icon: Icon(Icons.remove),iconSize: 50,color: Colors.white, onPressed: () {setState(() {
                                             percent = percent - 20;
                                           });},),

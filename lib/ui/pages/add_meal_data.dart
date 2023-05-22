@@ -87,7 +87,7 @@ class _AddMealPageState extends State<AddMealPage> {
                               TextButton(
                                 onPressed: null, 
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 140),
+                                  padding: const EdgeInsets.symmetric(horizontal: 130),
                                   child: Text(
                                     "Besin Ekle",
                                     style: TextStyle(
