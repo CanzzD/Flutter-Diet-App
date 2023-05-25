@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../../service/auth_service.dart';
 
 class AddMealPage extends StatefulWidget {
   const AddMealPage({Key? key}) : super(key: key);
@@ -8,7 +11,9 @@ class AddMealPage extends StatefulWidget {
 }
 
 class _AddMealPageState extends State<AddMealPage> {
-  late String mealName, calorie, protein, carbohydrate, fat, mealType;
+  late String mealName, calorie, protein, carbohydrate, fat;
+  final firebaseAuth = FirebaseAuth.instance;
+  final authService = AuthService();
   final formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -38,36 +43,70 @@ class _AddMealPageState extends State<AddMealPage> {
                       children: [
                         SizedBox(height: 50),
                         TextFormField(
+                          validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Bilgileri Eksiksiz Doldurunuz";
+                              } else {}
+                            },
+                            onSaved: (value) {
+                              mealName = value!;
+                            },
                           decoration: InputDecoration(
                             hintText: "Besin İsmi",
                             filled: true
                           ),
                         ),
                         TextFormField(
-                          decoration: InputDecoration(
-                            hintText: "Besin Türü",
-                            filled: true
-                          ),
-                        ),
-                        TextFormField(
+                          validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Bilgileri Eksiksiz Doldurunuz";
+                              } else {}
+                            },
+                            onSaved: (value) {
+                              calorie = value!;
+                            },
                           decoration: InputDecoration(
                             hintText: "Kalorisi(1 Porsiyon)",
                             filled: true
                           ),
                         ),
                         TextFormField(
+                          validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Bilgileri Eksiksiz Doldurunuz";
+                              } else {}
+                            },
+                            onSaved: (value) {
+                              protein = value!;
+                            },
                           decoration: InputDecoration(
                             hintText: "Protein",
                             filled: true
                           ),
                         ),
                         TextFormField(
+                          validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Bilgileri Eksiksiz Doldurunuz";
+                              } else {}
+                            },
+                            onSaved: (value) {
+                              carbohydrate = value!;
+                            },
                           decoration: InputDecoration(
                             hintText: "Karbonhidrat",
                             filled: true
                           ),
                         ),
                         TextFormField(
+                          validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Bilgileri Eksiksiz Doldurunuz";
+                              } else {}
+                            },
+                            onSaved: (value) {
+                              fat = value!;
+                            },
                           decoration: InputDecoration(
                             hintText: "Yağ",
                             filled: true
@@ -85,7 +124,14 @@ class _AddMealPageState extends State<AddMealPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextButton(
-                                onPressed: null, 
+                                onPressed: () async {
+                                    if (formkey.currentState!.validate()) {
+                                      formkey.currentState!.save();
+                                      authService.addMeal(mealName, calorie, protein, carbohydrate, fat);
+                                    } else {
+                                      
+                                    }
+                                  }, 
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 130),
                                   child: Text(

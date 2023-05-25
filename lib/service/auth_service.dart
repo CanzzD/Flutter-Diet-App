@@ -24,9 +24,9 @@ class AuthService {
       res = "success";
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
-        res = "Kullanıcı Bulunamadı";
+        res = "Kullanıcı Adı veya Şifre Hatalı";
       } else if (e.code == "wrong-password") {
-        res = "Şifre Hatalı";
+        res = "Kullanıcı Adı veya Şifre Hatalı";
       }
 
     }
@@ -68,23 +68,42 @@ class AuthService {
     return res;
   }
 
-  Future<String?> addMeal(String mealName, String calorie, String protein, String carbohydrate, String fat, String mealType) async {
+  Future<String?> addMeal(String mealName, String calorie, String protein, String carbohydrate, String fat) async {
     String? res;
 
+
       try {
-        final resultData = await firebaseFirestore.collection("User").add({
-          "mealName" : mealName,
+        final resultData = await firebaseFirestore.collection("Meals").add({
+          "mealName" : mealName.toUpperCase(),
           "calorie" : calorie,
           "protein" : protein,
           "carbohydrate" : carbohydrate,
           "fat" : fat,
-          "mealType": mealType,
+          "searchCases": setSearchParam(mealName.toUpperCase())
         });
       } catch (e) {
         print("$e");
       }
       res = "success";
     }
+
+    setSearchParam(String caseNumber) {
+      List<String> caseSearchList = [];
+      String temp = "";
+      for (int i = 0; i < caseNumber.length; i++) {
+        temp = temp + caseNumber[i];
+        caseSearchList.add(temp);
+  }
+    List<String> splittedCaseNumber = caseNumber.split(" ");
+    for (var i = 0; i < splittedCaseNumber.length; i++) {
+      String splittedTemp = ""; 
+      for (var j = 0; j < splittedCaseNumber[i].length; j++) {
+        splittedTemp = splittedTemp + splittedCaseNumber[i][j];
+        caseSearchList.add(splittedTemp);
+      }
+    }
+      return caseSearchList;
+}
 
     
   }
