@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
 
@@ -9,6 +10,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+
   TextEditingController _searchController = TextEditingController();
   List<DocumentSnapshot> _searchResults = [];
 
@@ -42,7 +44,7 @@ class _SearchPageState extends State<SearchPage> {
                 searchMeals(value);
               },
             ),
-          ),
+          ),        
           Expanded(
             child: ListView.builder(
               itemCount: _searchResults.length,
@@ -53,18 +55,19 @@ class _SearchPageState extends State<SearchPage> {
                 String protein = mealData['protein'] ?? '';
                 String carbohydrate = mealData['carbohydrate'] ?? '';
                 String fat = mealData['fat'] ?? '';
+                String image = mealData['image'] ?? '';
 
                 return Padding(
                   padding: const EdgeInsets.all(5),
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
                       border: Border.all(color: Colors.black)
                       ),
                     child: Column(
                       children: [
-                        Text("Besin Adı     " + mealName,
+                        Text(mealName,
                          style: TextStyle(
                          fontWeight: FontWeight.bold,
                          fontSize: 20
@@ -75,6 +78,7 @@ class _SearchPageState extends State<SearchPage> {
                         Text("Karbonhidrat:    " + carbohydrate + "g"),
                         Text("Protein:   " + protein + "g"),
                         Text("Yağ:   " + fat + "g"),
+                        Text("foto" + image)
                       ],
                      
                     ),

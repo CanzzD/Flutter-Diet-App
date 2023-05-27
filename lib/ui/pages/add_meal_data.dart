@@ -112,7 +112,7 @@ class _AddMealPageState extends State<AddMealPage> {
                             filled: true
                           ),
                         ),
-
+                
                         SizedBox(height: 20),
                         Container(
                           decoration: BoxDecoration(
