@@ -58,12 +58,19 @@ class _SearchPageState extends State<SearchPage> {
                 String image = mealData['image'] ?? '';
 
                 return Padding(
-                  padding: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(10),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Colors.white,
-                      border: Border.all(color: Colors.black)
+                      color: Colors.teal,
+                      border: Border.all(color: Colors.black),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.red,
+                          blurRadius: 4,
+                          offset: Offset(4, 8),
+                        ),
+                      ],
                       ),
                     child: Column(
                       children: [
