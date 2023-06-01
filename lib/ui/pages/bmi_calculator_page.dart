@@ -52,6 +52,7 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
                     ),
                   ),
                 ),
+                SizedBox(height: 25),
                 ListTile(
                   title: Text("BMI Nedir?",
                           style: TextStyle(
@@ -86,7 +87,7 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
                     boxShadow: [ 
                       BoxShadow(
                       color: Colors.red,
-                      blurRadius: 8,
+                      blurRadius: 5,
                       offset: Offset(6, 8),
                     ),
                   ]

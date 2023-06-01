@@ -10,9 +10,14 @@ class RegisterPage extends StatefulWidget {
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
+class fieldWrapper {
+  String field = "";
+  void setField(String value){field = value;}
+}
+
 class _RegisterPageState extends State<RegisterPage> {
 
-  late String email, password, bodyWeight, height, name, surname;
+  fieldWrapper email = new fieldWrapper(), password = new fieldWrapper() , bodyWeight = new fieldWrapper(), height = new fieldWrapper(), name = new fieldWrapper(), surname = new fieldWrapper();
   final formkey = GlobalKey<FormState>();
   final firebaseAuth = FirebaseAuth.instance;
   final authService = AuthService();
@@ -49,122 +54,18 @@ class _RegisterPageState extends State<RegisterPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(height: 30.0),
-                          TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Bilgileri Eksiksiz Doldurunuz";
-                              } else {}
-                            },
-                            onSaved: (value) {
-                              name = value!;
-                            },
-                            decoration: InputDecoration(
-                              hintText: 'Ad',
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(1),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                          ),
+                          textFormField("Ad", name),
                           SizedBox(height: 5.0),
-                          TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Bilgileri Eksiksiz Doldurunuz";
-                              } else {}
-                            },
-                            onSaved: (value) {
-                              surname = value!;
-                            },
-                            decoration: InputDecoration(
-                              hintText: 'Soyad',
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(1),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                          ),
+                          textFormField("Soyad", surname),
                           SizedBox(height: 5.0),
-                          TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Bilgileri Eksiksiz Doldurunuz";
-                              } else {}
-                            },
-                            onSaved: (value) {
-                              email = value!;
-                            },
-                            decoration: InputDecoration(
-                              hintText: 'E-posta',
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(1),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                          ),
+                          textFormField("E-posta", email),
                           SizedBox(height: 5.0),
-                          TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Bilgileri Eksiksiz Doldurunuz";
-                              } else {}
-                            },
-                            onSaved: (value) {
-                              password = value!;
-                            },
-                            decoration: InputDecoration(
-                              hintText: 'Şifre',
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(1),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                            obscureText: true,
-                          ),
+                          textFormField("Şifre", password, isObscured: true),
                           SizedBox(height: 5.0),
-                          TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Bilgileri Eksiksiz Doldurunuz";
-                              } else {}
-                            },
-                            onSaved: (value) {
-                              height = value!;
-                            },
-                            decoration: InputDecoration(
-                              hintText: 'Boy(cm)',
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(1),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                          ),
+                          textFormField("Boy(cm)", height),
                           SizedBox(height: 5.0),
-                          TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Bilgileri Eksiksiz Doldurunuz";
-                              } else {}
-                            },
-                            onSaved: (value) {
-                              bodyWeight = value!;
-                            },
-                            decoration: InputDecoration(
-                              hintText: 'Kilo(Kg)',
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(1),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                          ),
+                          textFormField("Kilo(Kg)", bodyWeight),
                     
-
                           //SIGN UP BUTTON
                           SizedBox(height: 25.0),
                           Container(
@@ -180,7 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   onPressed: () async {
                                     if (formkey.currentState!.validate()) {
                                       formkey.currentState!.save();
-                                      final result = await authService.signUp(email, password, name, surname, bodyWeight, height);
+                                      final result = await authService.signUp(email.field, password.field, name.field, surname.field, bodyWeight.field, height.field);
                                       if (result == "success") {
                                         ScaffoldMessenger.of(context).showSnackBar(
                                           SnackBar(content: Text("Aramıza Hoşgeldiniz. Giriş Yapabilirsiniz")));
@@ -247,5 +148,27 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     );
+  }
+
+  TextFormField textFormField(String hintText, fieldWrapper onSavedValue, {bool isObscured: false}) {
+    return TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Bilgileri Eksiksiz Doldurunuz";
+                            } else {}
+                          },
+                          onSaved: (value) {
+                            onSavedValue.field = value!;
+                          },
+                          decoration: InputDecoration(
+                            hintText: hintText,
+                            filled: true,
+                            fillColor: Colors.white.withOpacity(1),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                          obscureText: isObscured,
+                        );
   }
 }
