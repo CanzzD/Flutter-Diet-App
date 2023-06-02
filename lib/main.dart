@@ -1,10 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_diet_app/ui/pages/bmi_calculator_page.dart';
+import 'package:flutter_diet_app/ui/pages/body_fat_calculator.dart';
 import 'package:flutter_diet_app/ui/pages/bottom_navbar_page.dart';
 import 'package:flutter_diet_app/ui/pages/login_page.dart';
 import 'package:flutter_diet_app/ui/pages/profile_screen.dart';
-
 import 'firebase_options.dart';
 
 void main() async {
@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
         "/loginPage":(context) => LoginPage(),
         "/profileScreen":(context) => ProfileScreen(),
         "/bmiCalculatorPage":(context) => BMICalculatorPage(),
+        "/bodyFatCalculatorPage":(context) => BodyFatCalculatorPage(),
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,

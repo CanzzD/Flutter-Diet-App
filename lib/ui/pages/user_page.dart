@@ -63,39 +63,61 @@ class _UserPageState extends State<UserPage> {
                         ),),
                       ),
           ),
-          userPageTextButton("Vücut Kitle İndexi (BMI) Hesaplama", "/bmiCalculatorPage"),
-          userPageTextButton("Vücut Yağ Oranı Hesaplama             ", ""),
+          newTextButton("Vücut Kitle İndexi (BMI Hesaplama)", "/bmiCalculatorPage"),
+          newTextButton("Vücut Yağ Oranı Hesaplama", "/bodyFatCalculatorPage")
         ],
       ),
     );
   }
 
-
-  Padding userPageTextButton(String buttonText,String navpage) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Container(
-            decoration: BoxDecoration(
-              color: Colors.teal,
-              border: Border.all(color: Colors.black),
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.red,
-                  blurRadius: 8,
-                  offset: Offset(6, 8),
-                ),
-              ],
-            ),
-            child: TextButton(
-              onPressed: () => Navigator.pushNamed(context, navpage), 
-              child: Text(buttonText ,style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontSize: 23
-              ),),
+  Container newTextButton(String text, String onPressed) {
+    return Container(
+    width: double.infinity,
+    height: 60,
+    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(25),
+      gradient: LinearGradient(
+        colors: [Color(0xFF74ABE2), Color(0xFF5563C1)],
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.3),
+          blurRadius: 6,
+          offset: Offset(0, 3),
+        ),
+      ],
+    ),
+    child: Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () => Navigator.pushNamed(context, onPressed),
+        borderRadius: BorderRadius.circular(25),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.favorite,
+                color: Colors.red,
+                size: 20,
               ),
+              SizedBox(width: 8),
+              Text(
+                text,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
-    );
+        ),
+      ),
+    ),);
   }
 }

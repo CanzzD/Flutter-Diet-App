@@ -55,7 +55,6 @@ class _SearchPageState extends State<SearchPage> {
                 String protein = mealData['protein'] ?? '';
                 String carbohydrate = mealData['carbohydrate'] ?? '';
                 String fat = mealData['fat'] ?? '';
-                String image = mealData['image'] ?? '';
 
                 return Padding(
                   padding: const EdgeInsets.all(10),
@@ -85,7 +84,6 @@ class _SearchPageState extends State<SearchPage> {
                         Text("Karbonhidrat:    " + carbohydrate + "g"),
                         Text("Protein:   " + protein + "g"),
                         Text("Yağ:   " + fat + "g"),
-                        Text("foto" + image)
                       ],
                      
                     ),
