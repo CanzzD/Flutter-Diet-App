@@ -96,6 +96,7 @@ class _BodyFatCalculatorPageState extends State<BodyFatCalculatorPage> {
             SizedBox(height: 10),
             calculateButton(),
             SizedBox(height: 10),
+            
             Text(
               'Vücut Yağ Oranınız: ${bodyFatPercentage.toStringAsFixed(2)}%',
               style: TextStyle(

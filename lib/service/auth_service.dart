@@ -7,14 +7,6 @@ class AuthService {
   final firebaseFirestore = FirebaseFirestore.instance;
 
 
-  Future forgotPassword(String email) async {
-    try {
-      final result = await firebaseAuth.sendPasswordResetEmail(email: email);
-      print("Mailinize göndeilen bağlantıdan şifrenizi yenileyebilirsiniz"); 
-    } catch (e) {
-    }
-  }
-
   Future<String?> signIn(String email, String password) async {
     String? res;
 

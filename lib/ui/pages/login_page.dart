@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade900,
+      backgroundColor: Color(0xFFE9E9E9),
       body: Form(
         key: formkey,
         child: Stack(
@@ -36,12 +36,12 @@ class _LoginPageState extends State<LoginPage> {
                       title: Text("HOŞGELDİNİZ",style: TextStyle(
                         fontWeight: FontWeight.w900,
                         fontSize: 40,
-                        color: Colors.white,
+                        color: Colors.blueGrey,
                       ),),
                       subtitle: Text("Daha sağlıklı bir hayata ilk adımınız",style: TextStyle(
                         fontWeight: FontWeight.w300,
                         fontSize: 20,
-                        color: Colors.white,
+                        color: Colors.blueGrey,
                       ),),
                     ),
                     SizedBox(height: 50),
@@ -91,47 +91,7 @@ class _LoginPageState extends State<LoginPage> {
       
                         //LOG IN BUTTON AREA
                         SizedBox(height: 25.0),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.amber,
-                            border: Border.all(color: Colors.black),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextButton(
-                                onPressed: () async {
-                                  if (formkey.currentState!.validate()) {
-                                    formkey.currentState!.save();
-                                    final result = await authService.signIn(email, password);
-                                    if (result == "success") {
-                                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => BottomNavigationBarPage()), (route) => false);
-                                    } else {
-                                      showDialog(
-                                        context: context, 
-                                        builder: (context) {
-                                          return AlertDialog(
-                                        title: Text("Hata"),
-                                        content: Text(result!),
-                                        );
-                                      });
-                                    }
-                                  } else {
-                                    
-                                  }
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal:145.0),
-                                  child: Text('Giriş Yap',style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        logInButton(),
       
                     SizedBox(height: 40),
       
@@ -144,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                           'Üye değil misiniz?',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                            fontSize: 16,
                             color: Colors.white
                           ),
                           ),
@@ -157,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                             child: Text(
                               'Şimdi ÜCRETSİZ Deneyin', 
                                style: TextStyle(
-                               color: Colors.yellow,
+                               color: Colors.blueGrey,
                                fontWeight: FontWeight.bold,
                                fontSize: 18
                           ),
@@ -177,5 +137,75 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  Container logInButton() {
+    return Container(
+                        width: double.infinity,
+                        height: 60,
+                        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          gradient: LinearGradient(
+                            colors: [Color(0xFF74ABE2), Color(0xFF5563C1)],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.3),
+                              blurRadius: 6,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () async {
+                                  if (formkey.currentState!.validate()) {
+                                    formkey.currentState!.save();
+                                    final result = await authService.signIn(email, password);
+                                    if (result == "success") {
+                                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => BottomNavigationBarPage()), (route) => false);
+                                    } else {
+                                      showDialog(
+                                        context: context, 
+                                        builder: (context) {
+                                          return AlertDialog(
+                                        title: Text("Hata"),
+                                        content: Text(result!),
+                                        );
+                                      });
+                                    }
+                                  } else {
+                                    
+                                  }
+                                },
+                            borderRadius: BorderRadius.circular(25),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.login,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    "Giriş Yap",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),);
   }
 }

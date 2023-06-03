@@ -25,7 +25,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade900,
+      backgroundColor: Color(0xFFE9E9E9),
       body: Form(
         key: formkey,
         child: Column(
@@ -40,12 +40,12 @@ class _RegisterPageState extends State<RegisterPage> {
                       title: Text("NEREDEYSE OLDU",style: TextStyle(
                         fontWeight: FontWeight.w900,
                         fontSize: 30,
-                        color: Colors.white,
+                        color: Colors.blueGrey,
                       ),),
                       subtitle: Text("Bize katılmak için bilgileri doldurmalısınız",style: TextStyle(
                         fontWeight: FontWeight.w300,
                         fontSize: 20,
-                        color: Colors.white,
+                        color: Colors.blueGrey,
                       ),),
                     ),
                     
@@ -53,7 +53,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(height: 30.0),
+                          SizedBox(height: 20.0),
                           textFormField("Ad", name),
                           SizedBox(height: 5.0),
                           textFormField("Soyad", surname),
@@ -65,20 +65,101 @@ class _RegisterPageState extends State<RegisterPage> {
                           textFormField("Boy(cm)", height),
                           SizedBox(height: 5.0),
                           textFormField("Kilo(Kg)", bodyWeight),
-                    
-                          //SIGN UP BUTTON
-                          SizedBox(height: 25.0),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.amber,
-                              border: Border.all(color: Colors.black),
-                              borderRadius: BorderRadius.circular(10),
+                          SizedBox(height: 10.0),
+                          signUpButton(),
+                          SizedBox(height: 5.0),
+                          backButton(context),
+                          
+                          
+                        ],
+                      ),
+                    ),
+              ],
+            ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+Container backButton(BuildContext context) {
+    return Container(
+                        width: double.infinity,
+                        height: 50,
+                        margin: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          gradient: LinearGradient(
+                            colors: [Color(0xFF74ABE2), Color(0xFF5563C1)],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.3),
+                              blurRadius: 10,
+                              offset: Offset(0, 2),
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                TextButton(
-                                  onPressed: () async {
+                          ],
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                            borderRadius: BorderRadius.circular(25),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.arrow_back_sharp,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    "Giriş Sayfasına Geri Dön",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),);
+  }
+
+Container signUpButton() {
+    return Container(
+                        width: double.infinity,
+                        height: 50,
+                        margin: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          gradient: LinearGradient(
+                            colors: [Color(0xFF74ABE2), Color(0xFF5563C1)],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.3),
+                              blurRadius: 10,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () async {
                                     if (formkey.currentState!.validate()) {
                                       formkey.currentState!.save();
                                       final result = await authService.signUp(email.field, password.field, name.field, surname.field, bodyWeight.field, height.field);
@@ -100,54 +181,31 @@ class _RegisterPageState extends State<RegisterPage> {
                                       
                                     }
                                   },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal:150.0),
-                                    child: Text('Kayıt Ol',style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                    ),),
+                            borderRadius: BorderRadius.circular(25),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.login_outlined,
+                                    color: Colors.white,
+                                    size: 30,
                                   ),
-                                ),
-                              ],
+                                  SizedBox(width: 8),
+                                  Text(
+                                    "Üye Ol",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          SizedBox(height: 10.0),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.amber,
-                              border: Border.all(color: Colors.black),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal:100.0),
-                                    child: Text('Giriş Ekranına Dön',style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                    ),),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          
-                          
-                        ],
-                      ),
-                    ),
-              ],
-            ),
-            )
-          ],
-        ),
-      ),
-    );
+                        ),);
   }
 
   TextFormField textFormField(String hintText, fieldWrapper onSavedValue, {bool isObscured: false}) {
