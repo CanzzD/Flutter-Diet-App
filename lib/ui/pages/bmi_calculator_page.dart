@@ -28,8 +28,10 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
     }
   }
   String bmiData() {
-
-    if (bmiResult < 18.49) {
+    if (bmiResult == 0) {
+      return "BMI sonucunuz 0-18,5 aralığında ise AŞIRI ZAYIF.\nBMI sonucunuz 18,5-25 aralığında ise İDEAL KİLO.\nBMI sonucunuz 25-30 aralığında ise KİLOLU.\nBMI sonucunuz 30 ve üzeri ise AŞIRI KİLOLU.";
+    }
+    else if (bmiResult < 18.49) {
       return "BMI hesaplama sonucuna göre kilonuz olması gereken ağırlığınızın altında demektir. Düşük vücut ağırlığı saç dökülmesi, tırnak kırılması, halsizlik, yorgunluk ve baş ağrısı gibi şikayetlere neden olabilir. İdeal kiloya ulaşma sürecinde önemli olan kilo artışının hızlı olması değil; sağlıklı bir kilo artışının gerçekleşmesidir. Bu süreçte bir beslenme uzmanında yardım almanız daha sağlıklı olur.";
     } else if (18.5 < bmiResult && bmiResult < 24.99) {
       return "BMI hesaplama sonucuna göre boy-kilo oranınız ideal seviyededir. İdeal vücut ağırlığında olmanız hem daha dinç ve zinde olmanızı sağlar hem de hastalıklara yakalanma riskinizi düşürür.";

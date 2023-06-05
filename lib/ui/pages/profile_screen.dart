@@ -71,7 +71,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         "${DateFormat("EEEE").format(today)}, ${DateFormat("d MMMM").format(today)} ",
                         style: TextStyle(
                         fontWeight: FontWeight.w400,
-                        fontSize: 18, 
+                        fontSize: 18,
+                        color:  Colors.blueGrey 
                       ),
                       ),
 
@@ -80,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style:  TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: 26,
-                        color: Colors.black,
+                        color: Colors.blueGrey,
                       ),),
                     ),
                     SizedBox(height: 20),
@@ -300,7 +301,7 @@ class _RadialProgress extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: _RadialPainter(
-        progress: 0.7,
+        progress: 0.65,
 
         ),
       child: Container(
