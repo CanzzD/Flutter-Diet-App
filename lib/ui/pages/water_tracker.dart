@@ -12,7 +12,7 @@ class WaterTrackerScreen extends StatelessWidget {
     final today =DateTime.now();
 
     return Scaffold(
-      backgroundColor: Colors.blue.shade900,
+      backgroundColor: Color(0xFFE9E9E9),
       body: Column(
         children: 
          [Padding(
@@ -27,7 +27,7 @@ class WaterTrackerScreen extends StatelessWidget {
                   child: IconButton(
                     icon: Icon(
                       Icons.close, 
-                      color: Colors.white,
+                      color: Colors.blueGrey,
                       size: 40,
                     ), onPressed: () {  
                       Navigator.of(context).pop();
@@ -40,7 +40,7 @@ class WaterTrackerScreen extends StatelessWidget {
                           style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 18,
-                          color: Colors.white, 
+                          color: Colors.blueGrey, 
                         ),
                       ),
                       subtitle: Text(
@@ -48,7 +48,7 @@ class WaterTrackerScreen extends StatelessWidget {
                           style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 24,
-                          color: Colors.white, 
+                          color: Colors.blueGrey, 
                         ),
                       ),
                 ),
@@ -89,7 +89,7 @@ class __WaterProgressBar1State extends State<_WaterProgressBar1> {
                 Text(
                   "Hedefini Tamamlamak İçin Barı Doldurmalısın",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.blueGrey,
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
                   ),
@@ -105,126 +105,71 @@ class __WaterProgressBar1State extends State<_WaterProgressBar1> {
                     SizedBox(height: 40,),
 
 
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                              Colors.blue.shade800,
-                              Color.fromARGB(255, 192, 21, 126),
-                            ],
-                      )
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(padding: EdgeInsets.only(right: 15),
-                      child: Text(
-                        "Bardak Su",
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Row(
-                            children: [
-                              Padding(
-                            padding: const EdgeInsets.only(left:0.0),
-                            child: IconButton(icon: Icon(Icons.add),iconSize: 50,color: Colors.white, onPressed: () {setState(() {
-                                            percent = percent + 10;
-                                          });},),
-                          ), 
-                          SizedBox(width: 60,),
-                              Padding(
-                                padding: const EdgeInsets.only(right:0.0),
-                                child: Text(
-                                  "250mL(0.25L)",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                  ),
-                                  )
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left:35.0),
-                            child: IconButton(icon: Icon(Icons.remove),iconSize: 50,color: Colors.white, onPressed: () {setState(() {
-                                            percent = percent - 10;
-                                          });},),
-                          ), 
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-
+                addWaterBox("Bardak Su", "250mL(0.25L)", 10),
                 SizedBox(height: 20,),
-
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                              Colors.blue.shade800,
-                              Color.fromARGB(255, 192, 21, 126),
-                            ],
-                      )
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(padding: EdgeInsets.only(right: 15),
-                      child: Text(
-                        "Şişe Su",
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Row(
-                            children: [
-                              Padding(
-                            padding: const EdgeInsets.only(left:0.0),
-                            child: IconButton(icon: Icon(Icons.add),iconSize: 50,color: Colors.white, onPressed: () {setState(() {
-                                            percent = percent + 20;
-                                          });},),
-                          ), 
-                          SizedBox(width: 60,),
-                              Padding(
-                                padding: const EdgeInsets.only(right:0.0), 
-                                child: Text(
-                                  "500mL(0.50L)",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                  ),
-                                  )
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left:35.0),
-                            child: IconButton(icon: Icon(Icons.remove),iconSize: 50,color: Colors.white, onPressed: () {setState(() {
-                                            percent = percent - 20;
-                                          });},),
-                          ), 
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                addWaterBox("Şişe Su", "500mL(0.50L)", 20),
                 ],
           );
+  }
+
+  Container addWaterBox(String text1, String text2, int addpercent) {
+    return Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                            Color(0xFF5563C1),
+                            Color(0xFF74ABE2),
+                          ],
+                    )
+                ),
+                child: Column(
+                  children: [
+                    Padding(padding: EdgeInsets.only(right: 15),
+                    child: Text(
+                      text1,
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Row(
+                          children: [
+                            Padding(
+                          padding: const EdgeInsets.only(left:0.0),
+                          child: IconButton(icon: Icon(Icons.add),iconSize: 50,color: Colors.white, onPressed: () {setState(() {
+                                          percent = percent + addpercent;
+                                        });},),
+                        ), 
+                        SizedBox(width: 60,),
+                            Padding(
+                              padding: const EdgeInsets.only(right:0.0),
+                              child: Text(
+                                text2,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                ),
+                                )
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left:35.0),
+                          child: IconButton(icon: Icon(Icons.remove),iconSize: 50,color: Colors.white, onPressed: () {setState(() {
+                                          percent = percent - addpercent;
+                                        });},),
+                        ), 
+                      ],
+                    ),
+                  ],
+                ),
+              );
   }
 }

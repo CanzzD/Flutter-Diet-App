@@ -194,8 +194,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                               colors: [
-                              Color.fromARGB(255, 220, 225, 222),
-                              Color(0xFF2000980),
+                              Color(0xFF74ABE2),
+                              Color(0xFF5563C1),
                             ],
                             ),
                           ),
@@ -314,13 +314,13 @@ class _RadialProgress extends StatelessWidget {
                 TextSpan(text: "1061", style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.w700,
-                  color: const Color(0xFF200087),
+                  color: const Color(0xFF5563C1),
                 ),),
                 TextSpan(text: "\n"),
                 TextSpan(text: "kcal", style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
-                  color: const Color(0xFF200087),
+                  color: const Color(0xFF5563C1),
                 ),),
               ]
             ),
@@ -340,7 +340,7 @@ class _RadialPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
     ..strokeWidth = 10
-      ..color = Color(0XFF200087)
+      ..color = Color(0xFF5563C1)
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 

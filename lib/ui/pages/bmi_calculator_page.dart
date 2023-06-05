@@ -11,6 +11,7 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
   TextEditingController heightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
   double bmiResult = 0.0;
+  
 
   void calculateBMI() {
     double? height = double.tryParse(heightController.text);
@@ -25,6 +26,19 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
         bmiResult = 0.0;
       });
     }
+  }
+  String bmiData() {
+
+    if (bmiResult < 18.49) {
+      return "BMI hesaplama sonucuna göre kilonuz olması gereken ağırlığınızın altında demektir. Düşük vücut ağırlığı saç dökülmesi, tırnak kırılması, halsizlik, yorgunluk ve baş ağrısı gibi şikayetlere neden olabilir. İdeal kiloya ulaşma sürecinde önemli olan kilo artışının hızlı olması değil; sağlıklı bir kilo artışının gerçekleşmesidir. Bu süreçte bir beslenme uzmanında yardım almanız daha sağlıklı olur.";
+    } else if (18.5 < bmiResult && bmiResult < 24.99) {
+      return "BMI hesaplama sonucuna göre boy-kilo oranınız ideal seviyededir. İdeal vücut ağırlığında olmanız hem daha dinç ve zinde olmanızı sağlar hem de hastalıklara yakalanma riskinizi düşürür.";
+    } else if (25 < bmiResult && bmiResult < 29.99) {
+      return "BMI değeriniz vücut ağırlığınızın boyunuza oranla yüksek olduğunu ve obezite riski taşıdığınızı gösteriyor. İdeal kilograma inme sürecinde hızlı kilo kaybı daha sağlıksız bir vücuda temel hazırlar. Bu süreçte hızlı kilo kaybının yerine yavaş ve kalıcı olan ağırlık kaybının sağlıklı olduğunu bilmelisiniz.";
+    } else if (bmiResult > 30) {
+      return "BMI değeriniz obez sınıflandırmasına girdiğinizi ve vücut ağırlığınızın olması gerekenin çok üstünde olduğunu gösteriyor. Obezite diyabet, kalp-damar hastalıkları, yüksek tansiyon, kolesterol ve kanser görülme riskini artırabilir ve yaşam kalitesini olumsuz yönde etkileyebilir. İdeal vücut ağılığına ulaşmak amacıyla hızlı kilo kaybının gerçekleşmesi kalıcı olmayan bir çözümdür ve aynı hızla ağırlık artışına neden olabilir. Bu süreçte ağırlık kaybının diyetisyen gözetiminde olmasını tavsiye ediyoruz.";
+    }
+    return "";
   }
 
   @override
@@ -84,6 +98,25 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
                   style: TextStyle(fontSize: 20.0),
                   textAlign: TextAlign.center,
                 ),
+                  SizedBox(height: 15),
+                Text(
+                  "Tavsiyelerimiz",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                    color: Colors.blueGrey
+                  ),),
+                  SizedBox(height: 20),
+
+                Text(
+                  "${bmiData()}",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
+                  )
+  
               ],
             ),
             )
@@ -114,7 +147,7 @@ Container calculateButton() {
   child: Material(
     color: Colors.transparent,
     child: InkWell(
-      onTap: calculateBMI,
+      onTap: calculateBMI ,
       borderRadius: BorderRadius.circular(25),
       child: Padding(
         padding: const EdgeInsets.all(8.0),

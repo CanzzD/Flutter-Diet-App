@@ -60,16 +60,21 @@ class _SearchPageState extends State<SearchPage> {
                   padding: const EdgeInsets.all(10),
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(25),
                       color: Colors.teal,
                       border: Border.all(color: Colors.black),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.red,
-                          blurRadius: 4,
-                          offset: Offset(4, 8),
-                        ),
-                      ],
+                      gradient: LinearGradient(
+                            colors: [Color(0xFF74ABE2), Color(0xFF5563C1)],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.3),
+                              blurRadius: 10,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                       ),
                     child: Column(
                       children: [
