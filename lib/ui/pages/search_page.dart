@@ -1,18 +1,63 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 
+class Meal {
+  final DateTime addedDate;
+  Meal({
+    required this.addedDate,
+  });
+}
+
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
+  SearchPage({Key? key}) : super(key: key);
 
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
-
+  
   TextEditingController _searchController = TextEditingController();
   List<DocumentSnapshot> _searchResults = [];
+  final CollectionReference _userCollection = FirebaseFirestore.instance.collection('addMeals');
+
+  late User? currentUser;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentUser();
+  }
+
+  void _getCurrentUser() async {
+    final User? user = _auth.currentUser;
+    setState(() {
+      currentUser = user;
+    });
+  }
+
+  void _addMeal(String mealName, String calorie, String protein, String carbohydrate, String fat) async {
+    if (currentUser != null) {
+      final userDocRef = _userCollection.doc();
+      await userDocRef.set({
+        "mealName" : mealName.toUpperCase(),
+          "calorie" : calorie,
+          "protein" : protein,
+          "carbohydrate" : carbohydrate,
+          "fat" : fat,
+        'userId': currentUser!.email,
+        'addedDate': Timestamp.now(),
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Yemek eklendi.'),
+        ),
+      );
+    }
+  }
 
   void searchMeals(String searchQuery) {
 
@@ -26,6 +71,7 @@ class _SearchPageState extends State<SearchPage> {
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,21 +122,38 @@ class _SearchPageState extends State<SearchPage> {
                             ),
                           ],
                       ),
-                    child: Column(
+                      
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(mealName,
-                         style: TextStyle(
-                         fontWeight: FontWeight.bold,
-                         fontSize: 20
-                         )
-                        ),
+                        IconButton(
+                                onPressed: () {
+                                  _addMeal(mealName, calorie, protein, carbohydrate, fat);
+                                }, 
+                                icon: Icon(
+                                  Icons.add,
+                                  size: 40,
+                                  color: Colors.black,
+                                )
+                              ),
+                        Column(
+                          children: [
+                            Text(mealName,
+                             style: TextStyle(
+                             fontWeight: FontWeight.bold,
+                             fontSize: 20,
+                             )
+                            ),
                   
-                        Text("Kalori:    " + calorie + "kcal"),
-                        Text("Karbonhidrat:    " + carbohydrate + "g"),
-                        Text("Protein:   " + protein + "g"),
-                        Text("Yağ:   " + fat + "g"),
+                            Text("Kalori:    " + calorie + "kcal"),
+                            Text("Karbonhidrat:    " + carbohydrate + "g"),
+                            Text("Protein:   " + protein + "g"),
+                            Text("Yağ:   " + fat + "g"),
+                            
+                            
+                          ],                     
+                        ),
                       ],
-                     
                     ),
                   ),
                 );

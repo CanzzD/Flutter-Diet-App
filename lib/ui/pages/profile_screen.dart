@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_diet_app/model/meal.dart';
 import 'package:flutter_diet_app/ui/pages/water_tracker.dart';
@@ -8,7 +7,10 @@ import 'package:flutter_rounded_progress_bar/flutter_rounded_progress_bar.dart';
 import 'package:flutter_rounded_progress_bar/rounded_progress_bar_style.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 import 'package:intl/intl.dart';
+import '../../service/add_meal_service.dart';
 
+final FirestoreService _firestoreService = FirestoreService();
+ FirebaseFirestore firestore = FirebaseFirestore.instance;
 class ProfileScreen extends StatefulWidget {
 
   @override
@@ -17,6 +19,26 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   String userName = '';
+  DateTime _dateTime = DateTime.now();
+  final User? user = FirebaseAuth.instance.currentUser;
+  List<Map<String, dynamic>> mealList = [];
+
+  @override
+  void initStates() {
+    super.initState();
+    fetchMeals();
+  }
+
+  Future<void> fetchMeals() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('addMeals')
+        .where('userEmail', isEqualTo: user!.email)
+        .get();
+
+    setState(() {
+      mealList = querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+    });
+  }
 
   @override
   void initState() {
@@ -39,6 +61,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         userName = snapshot['name'];
       });
     }
+  }
+
+  void _showDatePicker() {
+    showDatePicker(
+      context: context, 
+      initialDate: DateTime.now(), 
+      firstDate: DateTime(2000), 
+      lastDate: DateTime(2025)
+      ).then((value) => null);
   }
 
   @override
@@ -72,7 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 18,
-                        color:  Colors.blueGrey 
+                        color:  Colors.black 
                       ),
                       ),
 
@@ -81,7 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style:  TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: 26,
-                        color: Colors.blueGrey,
+                        color: Colors.black,
                       ),),
                     ),
                     SizedBox(height: 20),
@@ -139,90 +170,79 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             Positioned(
-              top:  380,
+              top:  360,
               left: 0,
               right: 0,
               child: Container(
-                height: 445,
+                height: 440,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 10,
-                        left: 32,
-                        right: 16,
-                      ),
-                      child: Text(
-                        "Bugün Yediklerim",
-                        style: const TextStyle(
-                          color: Colors.blueGrey,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            bottom:10,
+                            left: 30,
+                            right: 16,
+                          ),
+                          child: Text(
+                            "Bugün Yediklerim",
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
                         ),
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal:60),
+                          child: MaterialButton(
+                            onPressed: _showDatePicker,
+                            child: Padding(padding: EdgeInsets.all(0),
+                            child: Text(
+                              "Tarih Seçin",
+                            ),
+                            ),
+                            )
+                        ),
+                      ],
                     ),
-                    
+      
                     //MEAL-CARD-AREA
                     Expanded(
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: <Widget>[
-                            SizedBox(
-                              width: 25,
-                            ),
-                            for (int i = 0; i < meals.length; i++) _MealCard(meal:meals[i]),
+                            _MealCard()
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(height:15),
 
                     //WATER-TRACKER-AREA
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => (WaterTrackerScreen())
-                          ),
-                        );
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(bottom: 20, left: 27, right: 27),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                              Color(0xFF74ABE2),
-                              Color(0xFF5563C1),
-                            ],
-                            ),
-                          ),
-                          child: Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(top:25.0),
-                                child: Text(
-                                  "BUGÜN NE KADAR SU İÇTİM?",
-                                  style: TextStyle(
-                                    color: Color(0xFF2000980),
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(top:0,bottom: 0,left: 10,right: 10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.black),
+                          color: Colors.blueGrey.shade400
+                        ),
+                        child: TextButton(
+                          onPressed: () => Navigator.pushNamed(context, "/waterTrackerScreen"), 
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal:40),
+                            child: Text(
+                              "İçtiğiniz Su Miktarını Takip Etmek İçin Tıklayınız",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                                color: Colors.black,
                               ),
-                                //WATER PROGRESS BAR
-                                SizedBox(height: 30,),
-
-                                 Padding(
-                                   padding: const EdgeInsets.all(15.0),
-                                   child: _WaterProgressBar(height: 0.1, width: 0.1, percent: 0),
-                                 ),
-                              Row(),
-                            ],
-                          ),
+                              ),
+                          )
                         ),
                       ),
                     ),
@@ -234,9 +254,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
+  Material newTextButton(String text,BuildContext context,String onTap) {
+    return Material(
+    color: Colors.transparent,
+    child: InkWell(
+      onTap: () => Navigator.pushNamed(context, onTap),
+      borderRadius: BorderRadius.circular(25),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.date_range,
+              color: Colors.blueGrey,
+              size: 20,
+            ),
+            SizedBox(width: 8),
+            Text(
+              text,
+              style: TextStyle(
+                color: Colors.blueGrey,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+  }
 }
-
-
 
 class _IngredientProgress extends StatelessWidget {
 
@@ -367,88 +417,103 @@ class _RadialPainter extends CustomPainter {
 }
 
 class _MealCard extends StatelessWidget {
-  
-  final Meal meal;
-
-  const _MealCard({Key? key, required this.meal}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(right: 20, bottom: 10,),
-      child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        elevation: 4,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Flexible(
-              fit: FlexFit.tight,
-              child: Image.asset(
-                meal.imagePath,
-                width: 150,
-                fit: BoxFit.fill,
-                ),
-              ),
-            Flexible(
-              fit: FlexFit.tight,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      meal.mealTime,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: Colors.blueGrey,
-                      ),
-                      ),
-                    Text(
-                      meal.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18,
-                        color: Colors.black,
-                      ),
-                      ),
-                    Text(
-                      "${meal.kiloCalories} kcal",
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                        color: Colors.blueGrey,
-                      ),
-                      ),
-                    Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.access_time,
-                          color: Colors.black,
-                          size: 15,
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      return StreamBuilder<QuerySnapshot>(
+        stream: _firestoreService.getMealStream(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('Veriler alınırken bir hata oluştu.'),
+            );
+          }
+
+          if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+            List<QueryDocumentSnapshot> meals = snapshot.data!.docs;
+            return SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: meals.map((meals) {
+                  Map<String, dynamic>? mealsData = meals.data() as Map<String, dynamic>?;
+                  if (mealsData != null && mealsData.containsKey('mealName')) {
+                    String yemekAdi = mealsData['mealName'] as String;
+                    return Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Container(decoration: 
+                      BoxDecoration(
+                        borderRadius: BorderRadius.circular(60),
+                        border: Border.all(color: Colors.transparent,                       
+                        )),
+                        width: 250,
+                        height: 300,
+                        child: Card(color: Colors.white, 
+                          child: Container(decoration: BoxDecoration(gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Color(0xFFE9E9E9), Colors.blueGrey
+                            ],
+                          ),borderRadius: BorderRadius.circular(40)
                           ),
-                        Text("${meal.timeTaken} min"),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 16
-                    )
-                  ],
-                ),
-              )
+                            margin: const EdgeInsets.only(right: 8, bottom: 10,top: 10,left: 8),
+                            child: Material(
+                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                              elevation: 0,color: Colors.transparent,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                
+                                Text(mealsData["mealName"],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
+                                Text("Kalori:   " + mealsData["calorie"] + "kcal"),
+                                Text("Karbonhidrat:" + mealsData["carbohydrate"] + "g"),
+                                Text("Protein:  " + mealsData["protein"] + "g"),
+                                Text("Yağ:  " + mealsData["fat"] + "g"),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                }).toList(),
               ),
-          ],
-        ),
-      ),
-    );
+            );
+          }
+
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal:75),
+            child: Center(
+              child: Text(
+                'Henüz Yemek Eklemediniz',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.blueGrey
+                ),
+                ),
+            ),
+          );
+        },
+      );
+    } else {
+      return Center(
+        child: Text('Kullanıcı oturumu açmamış.'),
+      );
+    }
   }
 }
+
 
 class _WaterProgressBar extends StatelessWidget {
 

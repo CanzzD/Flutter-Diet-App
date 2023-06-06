@@ -66,6 +66,7 @@ class _UserPageState extends State<UserPage> {
           ),
           newTextButton("Vücut Kitle İndexi (BMI Hesaplama)", "/bmiCalculatorPage"),
           newTextButton("Vücut Yağ Oranı Hesaplama", "/bodyFatCalculatorPage"),
+          newTextButton("deneme", "/yemeklerSayfasi"),
           
         ],
       ),
