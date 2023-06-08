@@ -29,22 +29,23 @@ class _RegisterPageState extends State<RegisterPage> {
       body: Form(
         key: formkey,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [Padding(
             padding: EdgeInsets.symmetric(
               horizontal: 10.0,
-              vertical: 90.0
+              vertical: 60.0
             ),
             child: Column(
               children: <Widget>[
                   ListTile(
                       title: Text("NEREDEYSE OLDU",style: TextStyle(
                         fontWeight: FontWeight.w900,
-                        fontSize: 30,
+                        fontSize: 25,
                         color: Colors.blueGrey,
                       ),),
                       subtitle: Text("Bize katılmak için bilgileri doldurmalısınız",style: TextStyle(
                         fontWeight: FontWeight.w300,
-                        fontSize: 20,
+                        fontSize: 17,
                         color: Colors.blueGrey,
                       ),),
                     ),
@@ -53,7 +54,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(height: 20.0),
                           textFormField("Ad", name),
                           SizedBox(height: 5.0),
                           textFormField("Soyad", surname),
@@ -65,12 +65,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           textFormField("Boy(cm)", height),
                           SizedBox(height: 5.0),
                           textFormField("Kilo(Kg)", bodyWeight),
-                          SizedBox(height: 10.0),
-                          signUpButton(),
                           SizedBox(height: 5.0),
-                          backButton(context),
-                          
-                          
+                          signUpButton(),
+                          backButton(context),        
                         ],
                       ),
                     ),
@@ -87,7 +84,7 @@ Container backButton(BuildContext context) {
     return Container(
                         width: double.infinity,
                         height: 50,
-                        margin: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                        margin: EdgeInsets.symmetric(horizontal: 15),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(25),
                           gradient: LinearGradient(
@@ -118,14 +115,14 @@ Container backButton(BuildContext context) {
                                   Icon(
                                     Icons.arrow_back_sharp,
                                     color: Colors.white,
-                                    size: 30,
+                                    size: 25,
                                   ),
                                   SizedBox(width: 8),
                                   Text(
                                     "Giriş Sayfasına Geri Dön",
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 20,
+                                      fontSize: 17,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -140,7 +137,7 @@ Container signUpButton() {
     return Container(
                         width: double.infinity,
                         height: 50,
-                        margin: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                        margin: EdgeInsets.symmetric(horizontal: 15, vertical: 3),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(25),
                           gradient: LinearGradient(
@@ -190,14 +187,14 @@ Container signUpButton() {
                                   Icon(
                                     Icons.login_outlined,
                                     color: Colors.white,
-                                    size: 30,
+                                    size: 25,
                                   ),
                                   SizedBox(width: 8),
                                   Text(
                                     "Üye Ol",
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 20,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),

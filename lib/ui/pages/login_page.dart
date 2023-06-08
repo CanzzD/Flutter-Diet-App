@@ -29,8 +29,9 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 150),
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ListTile(
                       title: Text("HOŞGELDİNİZ",style: TextStyle(
@@ -44,11 +45,10 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.blueGrey,
                       ),),
                     ),
-                    SizedBox(height: 50),
+                    SizedBox(height: 40),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(height: 32.0),
                         TextFormField(
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           
-                          SizedBox(height: 16.0),
+                          SizedBox(height: 10.0),
                           TextFormField(
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                         SizedBox(height: 25.0),
                         logInButton(),
       
-                    SizedBox(height: 40),
+                    SizedBox(height: 30),
       
                     //REGİSTER PAGE AREA
                     Container(

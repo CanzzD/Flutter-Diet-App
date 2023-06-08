@@ -1,16 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_diet_app/model/meal.dart';
-import 'package:flutter_diet_app/ui/pages/water_tracker.dart';
 import 'package:flutter_rounded_progress_bar/flutter_rounded_progress_bar.dart';
 import 'package:flutter_rounded_progress_bar/rounded_progress_bar_style.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 import 'package:intl/intl.dart';
 import '../../service/add_meal_service.dart';
 
-final FirestoreService _firestoreService = FirestoreService();
- FirebaseFirestore firestore = FirebaseFirestore.instance;
+final AddMealService _addMealService = AddMealService();
+FirebaseFirestore firestore = FirebaseFirestore.instance;
+
 class ProfileScreen extends StatefulWidget {
 
   @override
@@ -85,7 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: <Widget>[
           Positioned(
             top: 0,
-            height: 350,
+            height: 300,
             left: 0,
             right: 0,
             child: ClipRRect(
@@ -93,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               child: Container(
                 color: Colors.white,
-                padding: const EdgeInsets.only(top: 40, left: 32, right: 16, bottom: 10),
+                padding: const EdgeInsets.only(top: 30, left: 30, right: 16, bottom: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -102,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         "${DateFormat("EEEE").format(today)}, ${DateFormat("d MMMM").format(today)} ",
                         style: TextStyle(
                         fontWeight: FontWeight.w400,
-                        fontSize: 18,
+                        fontSize: 16,
                         color:  Colors.black 
                       ),
                       ),
@@ -111,11 +110,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         "Merhaba  " + userName.toUpperCase(),
                         style:  TextStyle(
                         fontWeight: FontWeight.w800,
-                        fontSize: 26,
+                        fontSize: 23,
                         color: Colors.black,
                       ),),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
                     Row(
                       children: <Widget>[
                         _RadialProgress(
@@ -133,8 +132,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: <Widget>[
                             _IngredientProgress(
                               ingredient: "Protein",
-                              leftAmount: 75, 
-                              progress: 0.6, 
+                              userId: "yunus@gmail.com",
                               progressColor: Colors.green,
                               width: width * 0.28,
                               ),
@@ -143,9 +141,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
 
                             _IngredientProgress(
-                              ingredient: "Karbonhidrat", 
-                              leftAmount: 254, 
-                              progress: 0.4, 
+                              ingredient: "Karbonhidrat",
+                              userId: "yunus@gmail.com", 
                               progressColor: Colors.red,
                               width: width * 0.28,
                             ),
@@ -155,8 +152,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                             _IngredientProgress(
                               ingredient: "Yağ", 
-                              leftAmount: 63, 
-                              progress: 0.8, 
+                              userId: "yunus@gmail.com",
                               progressColor: Colors.yellow,
                               width: width * 0.28,
                             ),
@@ -170,11 +166,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             Positioned(
-              top:  360,
+              top:  300,
               left: 0,
               right: 0,
               child: Container(
-                height: 440,
+                height: 400,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -182,7 +178,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
-                            bottom:10,
+                            top: 10,
                             left: 30,
                             right: 16,
                           ),
@@ -196,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal:60),
+                          padding: const EdgeInsets.symmetric(horizontal:50),
                           child: MaterialButton(
                             onPressed: _showDatePicker,
                             child: Padding(padding: EdgeInsets.all(0),
@@ -223,7 +219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                     //WATER-TRACKER-AREA
                     Padding(
-                      padding: const EdgeInsets.only(top:0,bottom: 0,left: 10,right: 10),
+                      padding: const EdgeInsets.only(top:10,bottom: 0,left: 10,right: 10),
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
@@ -288,58 +284,108 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
-class _IngredientProgress extends StatelessWidget {
-
+class _IngredientProgress extends StatefulWidget {
   final String ingredient;
-  final int leftAmount;
-  final double progress, width;
+  final String userId;
+  final double width;
   final Color progressColor;
 
-  const _IngredientProgress({Key? key, required this.ingredient, required this.leftAmount, required this.progress, required this.progressColor, required this.width}) : super(key: key);
+  const _IngredientProgress({
+    Key? key,
+    required this.ingredient,
+    required this.userId,
+    required this.width,
+    required this.progressColor,
+  }) : super(key: key);
+
+  @override
+  _IngredientProgressState createState() => _IngredientProgressState();
+}
+
+class _IngredientProgressState extends State<_IngredientProgress> {
+  int totalAmount = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(ingredient.toUpperCase(), style: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-      Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Stack(
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('addMeals')
+          .where('userId', isEqualTo: widget.userId)
+          .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+
+        if (snapshot.hasError) {
+          return Text('Veriler alınırken bir hata oluştu.');
+        }
+
+        if (snapshot.hasData) {
+          final meals = snapshot.data!.docs;
+          totalAmount = 0;
+
+          for (final meal in meals) {
+            final data = meal.data() as Map<String, dynamic>;
+            final ingredientAmount = data[widget.ingredient] as int?;
+            if (ingredientAmount != null) {
+              totalAmount += ingredientAmount;
+            }
+          }
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Container(
-                height: 10,
-                width: width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5)),color: Colors.black12,
+              Text(
+                widget.ingredient.toUpperCase(),
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-               Container(
-                height: 10,
-                width: width * progress,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5)),
-                    color: progressColor,
-                ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Stack(
+                    children: <Widget>[
+                      Container(
+                        height: 10,
+                        width: widget.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          color: Colors.black12,
+                        ),
+                      ),
+                      Container(
+                        height: 10,
+                        width: widget.width * (totalAmount / 100),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          color: widget.progressColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 10),
+                  Text("$totalAmount gram"),
+                ],
               ),
             ],
-          ),
-          SizedBox(width: 10),
-          Text("${leftAmount} gram "),
-        ],
-      ),
-      ],
+          );
+        }
+
+        return Container();
+      },
     );
   }
 }
+
+
+
+
+
+
 
 class _RadialProgress extends StatelessWidget {
 
@@ -363,13 +409,13 @@ class _RadialProgress extends StatelessWidget {
             text: TextSpan(
               children: [
                 TextSpan(text: "1061", style: TextStyle(
-                  fontSize: 32,
+                  fontSize: 25,
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF5563C1),
                 ),),
                 TextSpan(text: "\n"),
                 TextSpan(text: "kcal", style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 15,
                   fontWeight: FontWeight.w500,
                   color: const Color(0xFF5563C1),
                 ),),
@@ -390,7 +436,7 @@ class _RadialPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-    ..strokeWidth = 10
+    ..strokeWidth = 7
       ..color = Color(0xFF5563C1)
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
@@ -422,7 +468,7 @@ class _MealCard extends StatelessWidget {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       return StreamBuilder<QuerySnapshot>(
-        stream: _firestoreService.getMealStream(),
+        stream: _addMealService.getMealStream(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -444,24 +490,24 @@ class _MealCard extends StatelessWidget {
                 children: meals.map((meals) {
                   Map<String, dynamic>? mealsData = meals.data() as Map<String, dynamic>?;
                   if (mealsData != null && mealsData.containsKey('mealName')) {
-                    String yemekAdi = mealsData['mealName'] as String;
+                    String mealName = mealsData['mealName'] as String;
                     return Padding(
                       padding: EdgeInsets.all(5),
                       child: Container(decoration: 
                       BoxDecoration(
-                        borderRadius: BorderRadius.circular(60),
-                        border: Border.all(color: Colors.transparent,                       
-                        )),
+                        borderRadius: BorderRadius.circular(10),
+                        ),
                         width: 250,
                         height: 300,
-                        child: Card(color: Colors.white, 
+                        child: Card(color: Colors.white, elevation: 20,
                           child: Container(decoration: BoxDecoration(gradient: LinearGradient(
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                             colors: [
                               Color(0xFFE9E9E9), Colors.blueGrey.shade500
                             ],
-                          ),borderRadius: BorderRadius.circular(40)
+                          ),borderRadius: BorderRadius.circular(40),
+                          border: Border.all(color: Colors.black)
                           ),
                             margin: const EdgeInsets.only(right: 8, bottom: 10,top: 10,left: 8),
                             child: Material(
@@ -470,8 +516,9 @@ class _MealCard extends StatelessWidget {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
+                                IconButton(onPressed: null, icon: Icon(Icons.delete,color: Colors.white,size: 35,)),  
                                 
-                                CircleAvatar(backgroundImage: NetworkImage(mealsData['imageUrl']),radius: 70,),
+                                CircleAvatar(backgroundImage: NetworkImage(mealsData['imageUrl']),radius: 55,),
                                 Text(mealsData["mealName"],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
                                 Text("Kalori:   " + mealsData["calorie"] + "kcal"),
                                 Text("Karbonhidrat:" + mealsData["carbohydrate"] + "g"),

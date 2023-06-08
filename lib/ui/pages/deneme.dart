@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../service/add_meal_service.dart';
 
 class YemeklerSayfasi extends StatelessWidget {
-    final FirestoreService _firestoreService = FirestoreService();
+    final AddMealService _addMealService = AddMealService();
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class YemeklerSayfasi extends StatelessWidget {
         title: Text('Yemekler'),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: _firestoreService.getMealStream(),
+        stream: _addMealService.getMealStream(),
         builder:
             (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {

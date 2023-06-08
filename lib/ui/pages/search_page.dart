@@ -59,7 +59,7 @@ class _SearchPageState extends State<SearchPage> {
       );
     }
   }
-
+   
   void searchMeals(String searchQuery) {
 
     final firebaseFirestore = FirebaseFirestore.instance
@@ -108,11 +108,11 @@ class _SearchPageState extends State<SearchPage> {
                   padding: const EdgeInsets.all(10),
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
+                      borderRadius: BorderRadius.circular(20),
                       color: Colors.teal,
                       border: Border.all(color: Colors.black),
                       gradient: LinearGradient(
-                            colors: [Color(0xFF74ABE2), Color(0xFF5563C1)],
+                            colors: [Color(0xFFE9E9E9), Colors.blueGrey.shade500],
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
                           ),
@@ -134,25 +134,24 @@ class _SearchPageState extends State<SearchPage> {
                                 }, 
                                 icon: Icon(
                                   Icons.add,
-                                  size: 40,
+                                  size: 35,
                                   color: Colors.black,
                                 )
                               ),
+                              CircleAvatar(backgroundImage: NetworkImage(imageUrl),radius: 40,),
                         Column(
                           children: [
                             Text(mealName,
                              style: TextStyle(
                              fontWeight: FontWeight.bold,
-                             fontSize: 20,
+                             fontSize: 17,
                              )
                             ),
                   
                             Text("Kalori:    " + calorie + "kcal"),
                             Text("Karbonhidrat:    " + carbohydrate + "g"),
                             Text("Protein:   " + protein + "g"),
-                            Text("Yağ:   " + fat + "g"),
-                            
-                            
+                            Text("Yağ:   " + fat + "g"),          
                           ],                     
                         ),
                       ],

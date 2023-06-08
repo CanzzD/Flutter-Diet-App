@@ -51,12 +51,12 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 16
+              horizontal: 10,
+              vertical: 0
             ),
             child: Column(
               children: <Widget>[
-                Padding(padding: EdgeInsets.only(top: 40),
+                Padding(padding: EdgeInsets.only(top: 50),
                 child: IconButton(
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -68,12 +68,12 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 25),
+                SizedBox(height: 30),
                 ListTile(
                   title: Text("BMI Nedir?",
                           style: TextStyle(
                           fontWeight: FontWeight.w900,
-                          fontSize: 30,
+                          fontSize: 35,
                           color: Colors.blueGrey, 
                         ),
                       ),
@@ -81,26 +81,26 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
                         "BMI (Vücut Kitle İndeksi), boy-kilo endeksi olarak da bilinen, kişinin ağırlık ve boy değerleri kullanılarak hesaplanan bir sayıdır. Vücut kitle endeksi hesaplama sonucunda çıkan değer ile kişinin zayıf, normal ağırlıkta, hafif şişman ya da obez olması gibi bir sınıflama yapılır. ",
                           style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 16,
+                          fontSize: 17,
                           color: Colors.blueGrey, 
                         ),
                       ),
                 ),
 
-                SizedBox(height: 55),
-                textField("Boy","Boyunuzu Santimetre (cm) Cinsinden Giriniz",heightController),
                 SizedBox(height: 15),
+                textField("Boy","Boyunuzu Santimetre (cm) Cinsinden Giriniz",heightController),
+                SizedBox(height: 10),
                 textField("Kilo","Kilonuzu Kilogram (kg) Cinsinden Giriniz",weightController),
-                SizedBox(height: 25),
+                SizedBox(height: 15),
                 calculateButton(),
-                SizedBox(height: 16.0),
+                SizedBox(height: 10.0),
 
                 Text(
                   'BMI Sonucu: ${bmiResult.toStringAsFixed(2)}',
-                  style: TextStyle(fontSize: 20.0),
+                  style: TextStyle(fontSize: 20),
                   textAlign: TextAlign.center,
                 ),
-                  SizedBox(height: 15),
+                  SizedBox(height: 10),
                 Text(
                   "Tavsiyelerimiz",
                   style: TextStyle(
@@ -108,12 +108,12 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
                     fontSize: 25,
                     color: Colors.blueGrey
                   ),),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
 
                 Text(
                   "${bmiData()}",
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 15,
                     fontWeight: FontWeight.w600,
                     color: Colors.black,
                   ),
@@ -129,8 +129,8 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
 Container calculateButton() {
     return Container(
   width: double.infinity,
-  height: 60,
-  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+  height: 50,
+  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
   decoration: BoxDecoration(
     borderRadius: BorderRadius.circular(25),
     gradient: LinearGradient(
@@ -159,14 +159,14 @@ Container calculateButton() {
             Icon(
               Icons.calculate_outlined,
               color: Colors.white,
-              size: 30,
+              size: 20,
             ),
             SizedBox(width: 8),
             Text(
               "BMI Hesapla",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 20,
+                fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),
             ),
