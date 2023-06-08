@@ -39,7 +39,7 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
-  void _addMeal(String mealName, String calorie, String protein, String carbohydrate, String fat) async {
+  void _addMeal(String mealName, String calorie, String protein, String carbohydrate, String fat, String imageUrl) async {
     if (currentUser != null) {
       final userDocRef = _userCollection.doc();
       await userDocRef.set({
@@ -48,6 +48,7 @@ class _SearchPageState extends State<SearchPage> {
           "protein" : protein,
           "carbohydrate" : carbohydrate,
           "fat" : fat,
+          "imageUrl" : imageUrl,
         'userId': currentUser!.email,
         'addedDate': Timestamp.now(),
       });
@@ -101,6 +102,7 @@ class _SearchPageState extends State<SearchPage> {
                 String protein = mealData['protein'] ?? '';
                 String carbohydrate = mealData['carbohydrate'] ?? '';
                 String fat = mealData['fat'] ?? '';
+                String imageUrl = mealData['imageUrl'] ?? '';
 
                 return Padding(
                   padding: const EdgeInsets.all(10),
@@ -128,7 +130,7 @@ class _SearchPageState extends State<SearchPage> {
                       children: [
                         IconButton(
                                 onPressed: () {
-                                  _addMeal(mealName, calorie, protein, carbohydrate, fat);
+                                  _addMeal(mealName, calorie, protein, carbohydrate, fat, imageUrl);
                                 }, 
                                 icon: Icon(
                                   Icons.add,

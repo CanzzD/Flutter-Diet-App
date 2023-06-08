@@ -11,7 +11,7 @@ class AddMealPage extends StatefulWidget {
 }
 
 class _AddMealPageState extends State<AddMealPage> {
-  late String mealName, calorie, protein, carbohydrate, fat;
+  late String mealName, calorie, protein, carbohydrate, fat, imageUrl;
   final firebaseAuth = FirebaseAuth.instance;
   final authService = AuthService();
   final formkey = GlobalKey<FormState>();
@@ -112,6 +112,20 @@ class _AddMealPageState extends State<AddMealPage> {
                             filled: true
                           ),
                         ),
+                        TextFormField(
+                          validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Bilgileri Eksiksiz Doldurunuz";
+                              } else {}
+                            },
+                            onSaved: (value) {
+                              imageUrl = value!;
+                            },
+                          decoration: InputDecoration(
+                            hintText: "İmageURL",
+                            filled: true
+                          ),
+                        ),
                 
                         SizedBox(height: 20),
                         Container(
@@ -127,7 +141,7 @@ class _AddMealPageState extends State<AddMealPage> {
                                 onPressed: () async {
                                     if (formkey.currentState!.validate()) {
                                       formkey.currentState!.save();
-                                      authService.addMeal(mealName, calorie, protein, carbohydrate, fat);
+                                      authService.addMeal(mealName, calorie, protein, carbohydrate, fat, imageUrl);
                                     } else {
                                       
                                     }

@@ -228,7 +228,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(color: Colors.black),
-                          color: Colors.blueGrey.shade400
+                          color: Colors.blueGrey.shade300
                         ),
                         child: TextButton(
                           onPressed: () => Navigator.pushNamed(context, "/waterTrackerScreen"), 
@@ -459,7 +459,7 @@ class _MealCard extends StatelessWidget {
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                             colors: [
-                              Color(0xFFE9E9E9), Colors.blueGrey
+                              Color(0xFFE9E9E9), Colors.blueGrey.shade500
                             ],
                           ),borderRadius: BorderRadius.circular(40)
                           ),
@@ -471,6 +471,7 @@ class _MealCard extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                 
+                                CircleAvatar(backgroundImage: NetworkImage(mealsData['imageUrl']),radius: 70,),
                                 Text(mealsData["mealName"],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
                                 Text("Kalori:   " + mealsData["calorie"] + "kcal"),
                                 Text("Karbonhidrat:" + mealsData["carbohydrate"] + "g"),
@@ -513,7 +514,6 @@ class _MealCard extends StatelessWidget {
     }
   }
 }
-
 
 class _WaterProgressBar extends StatelessWidget {
 

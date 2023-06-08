@@ -30,8 +30,8 @@ class MyApp extends StatelessWidget {
         "/profileScreen":(context) => ProfileScreen(),
         "/bmiCalculatorPage":(context) => BMICalculatorPage(),
         "/bodyFatCalculatorPage":(context) => BodyFatCalculatorPage(),
-        "/yemeklerSayfasi":(context) => YemeklerSayfasi(),
         "/waterTrackerScreen":(context) => WaterTrackerScreen(),
+        "/denemePage":(context) => YemeklerSayfasi(),
       },
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,

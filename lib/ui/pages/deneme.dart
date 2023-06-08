@@ -37,7 +37,7 @@ class YemeklerSayfasi extends StatelessWidget {
 
               return Card(
                 child: ListTile(
-                  leading: CircleAvatar(),
+                  leading: CircleAvatar(backgroundImage: NetworkImage(meals['imageUrl'])),
                   title: Text(meals['mealName']),
                   subtitle: Text(meals['protein']),
                   onTap: () {
