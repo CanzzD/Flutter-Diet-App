@@ -10,13 +10,4 @@ class AddMealService {
         .where('userId', isEqualTo: user!.email)
         .snapshots();
   }
-
-  Future<List<Map<String, dynamic>>> getMeals() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('addMeals')
-        .where('userId', isEqualTo: user!.email)
-        .get();
-
-    return querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
-  }
 }

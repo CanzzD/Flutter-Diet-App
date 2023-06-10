@@ -41,6 +41,7 @@ dependencies:
   firebase_auth: ^4.6.0
   cloud_firestore: ^4.7.1
   flutter_date_picker: ^0.1.8
+  gradient_progress_bar: ^1.0.4
 
 dev_dependencies:
   flutter_test:

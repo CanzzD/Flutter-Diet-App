@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_diet_app/widgets/buttons/custom_text_buttons.dart';
+import '../../services/calculate_macro_service.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -67,6 +68,13 @@ class _UserPageState extends State<UserPage> {
           newTextButton("Vücut Kitle İndexi (BMI Hesaplama)", "/bmiCalculatorPage"),
           newTextButton("Vücut Yağ Oranı Hesaplama", "/bodyFatCalculatorPage"),
           newTextButton("deneme", "/denemePage"),
+          
+          TextButton(
+            onPressed: getTotalValues, 
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Text("data"),
+              ))
           
         ],
       ),

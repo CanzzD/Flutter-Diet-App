@@ -5,7 +5,9 @@ import 'package:flutter_rounded_progress_bar/flutter_rounded_progress_bar.dart';
 import 'package:flutter_rounded_progress_bar/rounded_progress_bar_style.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 import 'package:intl/intl.dart';
-import '../../service/add_meal_service.dart';
+import '../../services/add_meal_service.dart';
+import '../../services/calculate_macro_service.dart';
+
 
 final AddMealService _addMealService = AddMealService();
 FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -27,6 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     fetchMeals();
   }
+
 
   Future<void> fetchMeals() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
@@ -70,6 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       lastDate: DateTime(2025)
       ).then((value) => null);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -130,9 +134,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            _IngredientProgress(
+                            IngredientProgress(
                               ingredient: "Protein",
-                              userId: "yunus@gmail.com",
+                              userId: "can1@gmail.com",
                               progressColor: Colors.green,
                               width: width * 0.28,
                               ),
@@ -140,9 +144,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 height: 10,
                               ),
 
-                            _IngredientProgress(
+                            IngredientProgress(
                               ingredient: "Karbonhidrat",
-                              userId: "yunus@gmail.com", 
+                              userId: "can1@gmail.com", 
                               progressColor: Colors.red,
                               width: width * 0.28,
                             ),
@@ -150,9 +154,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               height: 10,
                             ),
 
-                            _IngredientProgress(
+                            IngredientProgress(
                               ingredient: "Yağ", 
-                              userId: "yunus@gmail.com",
+                              userId: "can1@gmail.com",
                               progressColor: Colors.yellow,
                               width: width * 0.28,
                             ),
@@ -216,6 +220,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     ),
+                    
 
                     //WATER-TRACKER-AREA
                     Padding(
@@ -251,6 +256,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+
+
+
+
+
+
+
   Material newTextButton(String text,BuildContext context,String onTap) {
     return Material(
     color: Colors.transparent,
@@ -284,13 +296,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
-class _IngredientProgress extends StatefulWidget {
+class IngredientProgress extends StatelessWidget {
   final String ingredient;
   final String userId;
   final double width;
   final Color progressColor;
 
-  const _IngredientProgress({
+  const IngredientProgress({
     Key? key,
     required this.ingredient,
     required this.userId,
@@ -299,18 +311,11 @@ class _IngredientProgress extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _IngredientProgressState createState() => _IngredientProgressState();
-}
-
-class _IngredientProgressState extends State<_IngredientProgress> {
-  int totalAmount = 0;
-
-  @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('addMeals')
-          .where('userId', isEqualTo: widget.userId)
+          .where('userId', isEqualTo: userId)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -323,11 +328,11 @@ class _IngredientProgressState extends State<_IngredientProgress> {
 
         if (snapshot.hasData) {
           final meals = snapshot.data!.docs;
-          totalAmount = 0;
+          int totalAmount = 0;
 
           for (final meal in meals) {
             final data = meal.data() as Map<String, dynamic>;
-            final ingredientAmount = data[widget.ingredient] as int?;
+            final ingredientAmount = data[ingredient] as int?;
             if (ingredientAmount != null) {
               totalAmount += ingredientAmount;
             }
@@ -337,7 +342,7 @@ class _IngredientProgressState extends State<_IngredientProgress> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                widget.ingredient.toUpperCase(),
+                ingredient.toUpperCase(),
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
@@ -351,7 +356,7 @@ class _IngredientProgressState extends State<_IngredientProgress> {
                     children: <Widget>[
                       Container(
                         height: 10,
-                        width: widget.width,
+                        width: width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(5)),
                           color: Colors.black12,
@@ -359,10 +364,10 @@ class _IngredientProgressState extends State<_IngredientProgress> {
                       ),
                       Container(
                         height: 10,
-                        width: widget.width * (totalAmount / 100),
+                        width: width * (totalAmount / 100),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(5)),
-                          color: widget.progressColor,
+                          color: progressColor,
                         ),
                       ),
                     ],
@@ -371,6 +376,8 @@ class _IngredientProgressState extends State<_IngredientProgress> {
                   Text("$totalAmount gram"),
                 ],
               ),
+              SizedBox(height: 10),
+              TotalValuesWidget(userId: userId),
             ],
           );
         }
@@ -381,9 +388,74 @@ class _IngredientProgressState extends State<_IngredientProgress> {
   }
 }
 
+class TotalValuesWidget extends StatefulWidget {
+  final String userId;
 
+  const TotalValuesWidget({Key? key, required this.userId}) : super(key: key);
 
+  @override
+  _TotalValuesWidgetState createState() => _TotalValuesWidgetState();
+}
 
+class _TotalValuesWidgetState extends State<TotalValuesWidget> {
+  double totalProtein = 0;
+  double totalCarbs = 0;
+  double totalFat = 0;
+  double totalCalorie = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    getTotalValues();
+  }
+
+  Future<void> getTotalValues() async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser != null) {
+      QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
+          .collection('addMeals')
+          .where('userId', isEqualTo: currentUser.email)
+          .get();
+
+      double protein = 0;
+      double carbs = 0;
+      double fat = 0;
+      double calorie = 0;
+
+      for (QueryDocumentSnapshot<Map<String, dynamic>> docSnapshot in querySnapshot.docs) {
+        Map<String, dynamic>? data = docSnapshot.data();
+
+        if (data != null && data.containsKey('protein') && data.containsKey('carbohydrate') && data.containsKey('fat') && data.containsKey('calorie')) {
+          protein += double.tryParse(data['protein'].toString()) ?? 0;
+          carbs += double.tryParse(data['carbohydrate'].toString()) ?? 0;
+          fat += double.tryParse(data['fat'].toString()) ?? 0;
+          calorie += double.tryParse(data['calorie'].toString()) ?? 0;
+        }
+      }
+
+      setState(() {
+        totalProtein = protein;
+        totalCarbs = carbs;
+        totalFat = fat;
+        totalCalorie = calorie;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Toplam Kalori: $totalCalorie'),
+        Text('Toplam Protein: $totalProtein'),
+        Text('Toplam Karbonhidrat: $totalCarbs'),
+        Text('Toplam Yağ: $totalFat'),
+      ],
+    );
+  }
+}
 
 
 
@@ -463,6 +535,11 @@ class _RadialPainter extends CustomPainter {
 }
 
 class _MealCard extends StatelessWidget {
+
+   void _removeMeal(String id) {
+    print(id);
+  }
+
   @override
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
@@ -516,7 +593,7 @@ class _MealCard extends StatelessWidget {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                IconButton(onPressed: null, icon: Icon(Icons.delete,color: Colors.white,size: 35,)),  
+                                IconButton(onPressed: () {_removeMeal(meals.id);}, icon: Icon(Icons.delete,color: Colors.white,size: 35,)),  
                                 
                                 CircleAvatar(backgroundImage: NetworkImage(mealsData['imageUrl']),radius: 55,),
                                 Text(mealsData["mealName"],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),

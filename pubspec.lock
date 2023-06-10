@@ -176,6 +176,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  gradient_progress_bar:
+    dependency: "direct main"
+    description:
+      name: gradient_progress_bar
+      sha256: e7dfe2390b902735fbda0bff2cff1d7800a0031b0de1585f3549f0d7b72a9f30
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.4"
   http_parser:
     dependency: transitive
     description:
