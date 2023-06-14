@@ -67,14 +67,6 @@ class _UserPageState extends State<UserPage> {
           ),
           newTextButton("Vücut Kitle İndexi (BMI Hesaplama)", "/bmiCalculatorPage"),
           newTextButton("Vücut Yağ Oranı Hesaplama", "/bodyFatCalculatorPage"),
-          newTextButton("deneme", "/denemePage"),
-          
-          TextButton(
-            onPressed: getTotalValues, 
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Text("data"),
-              ))
           
         ],
       ),

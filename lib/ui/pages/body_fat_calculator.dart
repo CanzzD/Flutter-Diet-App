@@ -40,6 +40,24 @@ class _BodyFatCalculatorPageState extends State<BodyFatCalculatorPage> {
     }
   }
 
+  String bodyFatData() {
+    if (bodyFatPercentage == 0) {
+      return "Yağ oranınız 0-10 aralığında ise GEREKLİ YAĞ.\nYağ oranınız 10-17 aralığında ise SPORCU.\nYağ oranınız 17-22 aralığında ise FORMDA.\nYağ oranınız 22-27 ve üzeri ise ORTALAMA.\nYağ oranınız 27 ve üzeri ise OBEZİTE BAŞLANGICI.";
+    }
+    else if (bodyFatPercentage < 10) {
+      return "VÜCUT YAĞ ORANI hesaplama sonucuna göre yağ oranınız yaşamak için gerekli seviyededir ancak üst düzey sporcu değilseniz bu yağ oranları tehlikeli olabilir. İdeal yağ oranına ulaşma sürecinde önemli olan yağ artışının hızlı olması değil; sağlıklı bir yağ artışının gerçekleşmesidir. Bu süreçte bir beslenme uzmanında yardım almanız daha sağlıklı olur.";
+    } else if (10 < bodyFatPercentage && bodyFatPercentage < 17) {
+      return "VÜCUT YAĞ ORANI hesaplama sonucuna göre yağ oranınız sporcuların yağ oranları seviyelerindedir. Bu yağ oranında olmanız hem daha dinç ve zinde olmanızı sağlar hem de hastalıklara yakalanma riskinizi düşürür.";
+    } else if (17 < bodyFatPercentage && bodyFatPercentage < 22) {
+      return "VÜCUT YAĞ ORANI hesaplama sonucuna göre yağ oranınız vücudunuzun formda olduğunu gösteriyor. Bu yağ oranını korumak için şekerli ve yağlı gıdalardan uzak durun ve spor yapın.";
+    } else if (22 < bodyFatPercentage && bodyFatPercentage < 27) {
+      return "VÜCUT YAĞ ORANI hesaplama sonucuna göre yağ oranınızın ortalama seviyelerde olduğu görülüyor. Bu yağ oranlarında iseniz mutlakla daha dikkatli olmanız gerekmektedir. Çünkü eğer beslenmenize dikkat etmezseniz, bir de hareketsiz bir yaşantınız var ise Obezite riski taşımaktasınız.";
+    }else if (bodyFatPercentage > 27) {
+      return "VÜCUT YAĞ ORANI hesaplama sonucuna göre yağ oranınız obezite başlangıcı sınıflandırmasına giriyor ve vücut yağ oranınızın olması gerekenin üstünde olduğunu gösteriyor. Obezite diyabet, kalp-damar hastalıkları, yüksek tansiyon, kolesterol ve kanser görülme riskini artırabilir ve yaşam kalitesini olumsuz yönde etkileyebilir. İdeal yağ oranına ulaşmak amacıyla hızlı kilo kaybının gerçekleşmesi kalıcı olmayan bir çözümdür ve aynı hızla artışına neden olabilir. Bu süreçte yağ oranı kaybının diyetisyen gözetiminde olmasını tavsiye ediyoruz.";
+    }
+    return "";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,16 +102,15 @@ class _BodyFatCalculatorPageState extends State<BodyFatCalculatorPage> {
                       ),
                 ),
               
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             textField("Boy","Boyunuzu Santimetre (cm) Cinsinden Giriniz",heightController),
-            SizedBox(height: 15),
+            SizedBox(height: 10),
             textField("Kilo","Kilonuzu Kilogram (kg) Cinsinden Giriniz",weightController),
-            SizedBox(height: 15),
+            SizedBox(height: 10),
             textField("Yaş","Yaşınızı Giriniz",ageController),
-            SizedBox(height: 15),
+            SizedBox(height: 10),
             listTile("Erkek", true),
             listTile("Kadın", false),
-            SizedBox(height: 10),
             calculateButton(),
             SizedBox(height: 10),
             
@@ -105,6 +122,17 @@ class _BodyFatCalculatorPageState extends State<BodyFatCalculatorPage> {
               ),
               textAlign: TextAlign.center,
             ),
+            
+            SizedBox(height: 15),
+
+            Text(
+                  "${bodyFatData()}",
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
+                  )
               ],
             ),
           )

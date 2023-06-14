@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-Future<void> getTotalValues() async {
+Future<Map<String, double>?> getTotalValues() async {
   // Geçerli kullanıcının kimlik bilgilerini alın
   User? currentUser = FirebaseAuth.instance.currentUser;
 
@@ -24,23 +24,26 @@ Future<void> getTotalValues() async {
 
       if (data != null && data.containsKey('protein') && data.containsKey('carbohydrate') && data.containsKey('fat') && data.containsKey('calorie')) {
         // Protein, karbonhidrat ve yağ değerlerini alın
-        double protein = double.tryParse(data['protein'].toString()) ?? 0;
-        double carbs = double.tryParse(data['carbohydrate'].toString()) ?? 0;
-        double fat = double.tryParse(data['fat'].toString()) ?? 0;
+
         double calorie = double.tryParse(data['calorie'].toString()) ?? 0;
+        double carbohydrate = double.tryParse(data['carbohydrate'].toString()) ?? 0;
+        double fat = double.tryParse(data['fat'].toString()) ?? 0;
+        double protein = double.tryParse(data['protein'].toString()) ?? 0;
 
         // Toplam değerlere ekleyin
-        totalProtein += protein;
-        totalCarbs += carbs;
-        totalFat += fat;
+
         totalCalorie += calorie;
+        totalCarbs += carbohydrate;
+        totalProtein += protein;
+        totalFat += fat;
       }
     }
 
-    // Sonuçları ekrana yazdırın
-    print('Toplam Kalori: $totalCalorie');
-    print('Toplam Protein: $totalProtein');
-    print('Toplam Karbonhidrat: $totalCarbs');
-    print('Toplam Yağ: $totalFat');
+    return {
+      'totalCalorie': totalCalorie,
+      'totalCarbs': totalCarbs,
+      'totalProtein': totalProtein,
+      'totalFat': totalFat,
+    };
   }
 }

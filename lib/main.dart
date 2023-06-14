@@ -4,7 +4,6 @@ import 'package:flutter_diet_app/ui/pages/bmi_calculator_page.dart';
 import 'package:flutter_diet_app/ui/pages/body_fat_calculator.dart';
 import 'package:flutter_diet_app/ui/pages/bottom_navbar_page.dart';
 import 'package:flutter_diet_app/ui/pages/deneme.dart';
-
 import 'package:flutter_diet_app/ui/pages/login_page.dart';
 import 'package:flutter_diet_app/ui/pages/profile_screen.dart';
 import 'package:flutter_diet_app/ui/pages/water_tracker.dart';

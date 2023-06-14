@@ -24,6 +24,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final User? user = FirebaseAuth.instance.currentUser;
   List<Map<String, dynamic>> mealList = [];
 
+  double? totalCalorie = 10;
+  double? totalCarbs = 10;
+  double? totalProtein = 10;
+  double? totalFat = 10;
+
   @override
   void initStates() {
     super.initState();
@@ -42,11 +47,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
+  void setTotalCalorie() {
+    getTotalValues().then((value) => {
+      totalCalorie = value!["totalCalorie"],
+      totalCarbs = value["totalCarbs"],
+      totalProtein = value["totalProtein"],
+      totalFat = value["totalFat"],
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     // Kullanıcı adını almak için Firebase kullanıcısını dinleyin
     getUserDisplayName();
+    setTotalCalorie();
   }
 
   void getUserDisplayName() async {
@@ -74,7 +89,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ).then((value) => null);
   }
 
-
   @override
   Widget build(BuildContext context) {
 
@@ -88,7 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: <Widget>[
           Positioned(
             top: 0,
-            height: 300,
+            height: 350,
             left: 0,
             right: 0,
             child: ClipRRect(
@@ -96,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               child: Container(
                 color: Colors.white,
-                padding: const EdgeInsets.only(top: 30, left: 30, right: 16, bottom: 10),
+                padding: const EdgeInsets.only(top: 40, left: 30, right: 16, bottom: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -116,50 +130,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fontWeight: FontWeight.w800,
                         fontSize: 23,
                         color: Colors.black,
-                      ),),
+                      ),      
                     ),
-                    SizedBox(height: 10),
+                    ),
+
                     Row(
                       children: <Widget>[
+
                         _RadialProgress(
-                          width:  width * 0.35,
-                          height: width * 0.4, 
-                          progress: 0.7,  
+                          height: height * 0.24, 
+                          width: width * 0.4, 
+                          progress: totalCalorie! / 2300,
+                          calorieText: totalCalorie!,
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
+
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            IngredientProgress(
-                              ingredient: "Protein",
-                              userId: "can1@gmail.com",
-                              progressColor: Colors.green,
-                              width: width * 0.28,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
 
-                            IngredientProgress(
-                              ingredient: "Karbonhidrat",
-                              userId: "can1@gmail.com", 
-                              progressColor: Colors.red,
-                              width: width * 0.28,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
+                            _IngredientProgress(
+                              ingredient: "Karbonhidrat", 
+                              leftAmount: totalCarbs!.toStringAsFixed(2), 
+                              progress: totalCarbs! / 250, 
+                              progressColor: Colors.blueGrey.shade500, 
+                              width: 100),
+                              SizedBox(height: 10),
 
-                            IngredientProgress(
+                              _IngredientProgress(
+                              ingredient: "Protein", 
+                              leftAmount: totalProtein!.toStringAsFixed(2), 
+                              progress: totalProtein! / 110, 
+                              progressColor: Colors.blueGrey.shade500, 
+                              width: 100),
+                              SizedBox(height: 10),
+
+                              _IngredientProgress(
                               ingredient: "Yağ", 
-                              userId: "can1@gmail.com",
-                              progressColor: Colors.yellow,
-                              width: width * 0.28,
-                            ),
+                              leftAmount: totalFat!.toStringAsFixed(2), 
+                              progress: totalFat! / 65, 
+                              progressColor: Colors.blueGrey.shade500, 
+                              width: 100),
+
                           ],
                         )
                       ],
@@ -170,7 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             Positioned(
-              top:  300,
+              top:  370,
               left: 0,
               right: 0,
               child: Container(
@@ -182,7 +195,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
-                            top: 10,
                             left: 30,
                             right: 16,
                           ),
@@ -195,17 +207,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal:50),
-                          child: MaterialButton(
-                            onPressed: _showDatePicker,
-                            child: Padding(padding: EdgeInsets.all(0),
-                            child: Text(
-                              "Tarih Seçin",
-                            ),
-                            ),
-                            )
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(horizontal:50),
+                        //   child: MaterialButton(
+                        //     onPressed: _showDatePicker,
+                        //     child: Padding(padding: EdgeInsets.all(0),
+                        //     child: Text(
+                        //       "Tarih Seçin",
+                        //     ),
+                        //     ),
+                        //     )
+                        // ),
                       ],
                     ),
       
@@ -260,9 +272,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 
 
-
-
-
   Material newTextButton(String text,BuildContext context,String onTap) {
     return Material(
     color: Colors.transparent,
@@ -296,181 +305,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
-class IngredientProgress extends StatelessWidget {
+class _IngredientProgress extends StatelessWidget {
   final String ingredient;
-  final String userId;
-  final double width;
+  final String? leftAmount;
+  final double? width;
+  final double progress;
   final Color progressColor;
 
-  const IngredientProgress({
-    Key? key,
-    required this.ingredient,
-    required this.userId,
-    required this.width,
-    required this.progressColor,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('addMeals')
-          .where('userId', isEqualTo: userId)
-          .snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        }
-
-        if (snapshot.hasError) {
-          return Text('Veriler alınırken bir hata oluştu.');
-        }
-
-        if (snapshot.hasData) {
-          final meals = snapshot.data!.docs;
-          int totalAmount = 0;
-
-          for (final meal in meals) {
-            final data = meal.data() as Map<String, dynamic>;
-            final ingredientAmount = data[ingredient] as int?;
-            if (ingredientAmount != null) {
-              totalAmount += ingredientAmount;
-            }
-          }
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                ingredient.toUpperCase(),
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      Container(
-                        height: 10,
-                        width: width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                          color: Colors.black12,
-                        ),
-                      ),
-                      Container(
-                        height: 10,
-                        width: width * (totalAmount / 100),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                          color: progressColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: 10),
-                  Text("$totalAmount gram"),
-                ],
-              ),
-              SizedBox(height: 10),
-              TotalValuesWidget(userId: userId),
-            ],
-          );
-        }
-
-        return Container();
-      },
-    );
-  }
-}
-
-class TotalValuesWidget extends StatefulWidget {
-  final String userId;
-
-  const TotalValuesWidget({Key? key, required this.userId}) : super(key: key);
-
-  @override
-  _TotalValuesWidgetState createState() => _TotalValuesWidgetState();
-}
-
-class _TotalValuesWidgetState extends State<TotalValuesWidget> {
-  double totalProtein = 0;
-  double totalCarbs = 0;
-  double totalFat = 0;
-  double totalCalorie = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    getTotalValues();
-  }
-
-  Future<void> getTotalValues() async {
-    User? currentUser = FirebaseAuth.instance.currentUser;
-
-    if (currentUser != null) {
-      QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
-          .collection('addMeals')
-          .where('userId', isEqualTo: currentUser.email)
-          .get();
-
-      double protein = 0;
-      double carbs = 0;
-      double fat = 0;
-      double calorie = 0;
-
-      for (QueryDocumentSnapshot<Map<String, dynamic>> docSnapshot in querySnapshot.docs) {
-        Map<String, dynamic>? data = docSnapshot.data();
-
-        if (data != null && data.containsKey('protein') && data.containsKey('carbohydrate') && data.containsKey('fat') && data.containsKey('calorie')) {
-          protein += double.tryParse(data['protein'].toString()) ?? 0;
-          carbs += double.tryParse(data['carbohydrate'].toString()) ?? 0;
-          fat += double.tryParse(data['fat'].toString()) ?? 0;
-          calorie += double.tryParse(data['calorie'].toString()) ?? 0;
-        }
-      }
-
-      setState(() {
-        totalProtein = protein;
-        totalCarbs = carbs;
-        totalFat = fat;
-        totalCalorie = calorie;
-      });
-    }
-  }
-
+  const _IngredientProgress({super.key, required this.ingredient, required this.leftAmount, required this.progress, required this.progressColor, required this.width});
+  
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Toplam Kalori: $totalCalorie'),
-        Text('Toplam Protein: $totalProtein'),
-        Text('Toplam Karbonhidrat: $totalCarbs'),
-        Text('Toplam Yağ: $totalFat'),
+      children: <Widget>[
+        Text(ingredient.toUpperCase(), style: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600
+        ),),
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Stack(
+              children: [
+                Container(
+                  height: 10,
+                  width: width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Color(0xFFE9E9E9),
+                    border: Border.all(color: Colors.black)
+                  ),
+                ),
+                Container(
+                  height: 10,
+                  width: width! * progress,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: progressColor,
+                    border: Border.all(color: Colors.black)
+                  ),
+                ),
+              ],
+            ),
+            Text("${leftAmount} gram ")
+          ],
+        )
       ],
     );
   }
 }
 
-
-
 class _RadialProgress extends StatelessWidget {
 
-  final double height, width, progress;
 
-  const _RadialProgress({Key? key, required this.height, required this.width, required this.progress}) : super(key: key);
+  final double height, width, progress,calorieText;
+
+ _RadialProgress({Key? key, required this.height, required this.width, required this.progress, required this.calorieText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: _RadialPainter(
-        progress: 0.65,
-
+        progress: progress,
         ),
       child: Container(
         height: height,
@@ -480,16 +377,16 @@ class _RadialProgress extends StatelessWidget {
             textAlign: TextAlign.center,
             text: TextSpan(
               children: [
-                TextSpan(text: "1061", style: TextStyle(
+                TextSpan(text: calorieText.toString(), style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.w700,
-                  color: const Color(0xFF5563C1),
+                  color: Colors.blueGrey.shade500,
                 ),),
                 TextSpan(text: "\n"),
                 TextSpan(text: "kcal", style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
-                  color: const Color(0xFF5563C1),
+                  color: Colors.blueGrey.shade500,
                 ),),
               ]
             ),
@@ -509,7 +406,7 @@ class _RadialPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
     ..strokeWidth = 7
-      ..color = Color(0xFF5563C1)
+      ..color = Colors.blueGrey.shade500
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 
@@ -592,15 +489,15 @@ class _MealCard extends StatelessWidget {
                               elevation: 0,color: Colors.transparent,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                IconButton(onPressed: () {_removeMeal(meals.id);}, icon: Icon(Icons.delete,color: Colors.white,size: 35,)),  
-                                
+                                children: <Widget>[                    
                                 CircleAvatar(backgroundImage: NetworkImage(mealsData['imageUrl']),radius: 55,),
                                 Text(mealsData["mealName"],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
                                 Text("Kalori:   " + mealsData["calorie"] + "kcal"),
                                 Text("Karbonhidrat:" + mealsData["carbohydrate"] + "g"),
                                 Text("Protein:  " + mealsData["protein"] + "g"),
                                 Text("Yağ:  " + mealsData["fat"] + "g"),
+
+                                IconButton(onPressed: () {_removeMeal(meals.id);}, icon: Icon(Icons.delete,color: Colors.white,size: 25,)),
                                 ],
                               ),
                             ),
@@ -636,25 +533,5 @@ class _MealCard extends StatelessWidget {
         child: Text('Kullanıcı oturumu açmamış.'),
       );
     }
-  }
-}
-
-class _WaterProgressBar extends StatelessWidget {
-
-   double percent,height, width;
-
-   _WaterProgressBar({Key? key, required this.height, required this.width, required this.percent}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-              children: <Widget>[
-                RoundedProgressBar(
-                    childLeft: Text("$percent%",
-                    style: TextStyle(color: Colors.white),),
-                    percent: percent,
-                    theme: RoundedProgressBarTheme.blue,),
-                ],
-          );
   }
 }
