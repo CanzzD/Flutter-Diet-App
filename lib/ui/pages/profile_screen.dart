@@ -141,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: height * 0.24, 
                           width: width * 0.4, 
                           progress: totalCalorie! / 2300,
-                          calorieText: totalCalorie!,
+                          calorieText: totalCalorie! ,
                         ),
 
                         Column(
@@ -153,24 +153,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             _IngredientProgress(
                               ingredient: "Karbonhidrat", 
                               leftAmount: totalCarbs!.toStringAsFixed(2), 
-                              progress: totalCarbs! / 250, 
-                              progressColor: Colors.blueGrey.shade500, 
+                              progress: totalCarbs! / 350, 
+                              progressColor: Colors.blueAccent.shade100, 
                               width: 100),
                               SizedBox(height: 10),
 
                               _IngredientProgress(
                               ingredient: "Protein", 
                               leftAmount: totalProtein!.toStringAsFixed(2), 
-                              progress: totalProtein! / 110, 
-                              progressColor: Colors.blueGrey.shade500, 
+                              progress: totalProtein! / 130, 
+                              progressColor: Colors.orange, 
                               width: 100),
                               SizedBox(height: 10),
 
                               _IngredientProgress(
                               ingredient: "Yağ", 
                               leftAmount: totalFat!.toStringAsFixed(2), 
-                              progress: totalFat! / 65, 
-                              progressColor: Colors.blueGrey.shade500, 
+                              progress: totalFat! / 100, 
+                              progressColor: Colors.yellow.shade600, 
                               width: 100),
 
                           ],
@@ -333,7 +333,7 @@ class _IngredientProgress extends StatelessWidget {
                   width: width,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Color(0xFFE9E9E9),
+                    color: Colors.white,
                     border: Border.all(color: Colors.black)
                   ),
                 ),
@@ -348,7 +348,12 @@ class _IngredientProgress extends StatelessWidget {
                 ),
               ],
             ),
-            Text("${leftAmount} gram ")
+            Text(
+              "   ${leftAmount} gram ",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 11
+            ),)
           ],
         )
       ],
@@ -380,13 +385,13 @@ class _RadialProgress extends StatelessWidget {
                 TextSpan(text: calorieText.toString(), style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.w700,
-                  color: Colors.blueGrey.shade500,
+                  color: Colors.blueGrey.shade700,
                 ),),
                 TextSpan(text: "\n"),
-                TextSpan(text: "kcal", style: TextStyle(
+                TextSpan(text: "Kalori", style: TextStyle(
                   fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.blueGrey.shade500,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.blueGrey.shade700,
                 ),),
               ]
             ),
@@ -406,17 +411,17 @@ class _RadialPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
     ..strokeWidth = 7
-      ..color = Colors.blueGrey.shade500
+      ..color = Colors.blue.shade300
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 
-    Offset center = Offset(size.width / 2, size.height / 2);
+    Offset center = Offset(size.width / 2.2, size.height / 2);
     double relativeProgress = 360 * progress;
 
     canvas.drawArc(
       Rect.fromCircle(
         center: center,
-        radius: size.width/2), 
+        radius: size.width/2.1), 
         math.radians(-90), 
         math.radians(-relativeProgress), 
         false, 
@@ -497,7 +502,7 @@ class _MealCard extends StatelessWidget {
                                 Text("Protein:  " + mealsData["protein"] + "g"),
                                 Text("Yağ:  " + mealsData["fat"] + "g"),
 
-                                IconButton(onPressed: () {_removeMeal(meals.id);}, icon: Icon(Icons.delete,color: Colors.white,size: 25,)),
+                                //IconButton(onPressed: () {_removeMeal(meals.id);}, icon: Icon(Icons.delete,color: Colors.white,size: 25,)),
                                 ],
                               ),
                             ),

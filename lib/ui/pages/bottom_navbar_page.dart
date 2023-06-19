@@ -18,7 +18,7 @@ class _BottomNavigationBarPageState extends State<BottomNavigationBarPage> {
     ProfileScreen(),
     SearchPage(),
     UserPage(),
-    AddMealPage()
+    //AddMealPage()
   ];
 
   int currentIndex = 0;
@@ -72,13 +72,13 @@ class _BottomNavigationBarPageState extends State<BottomNavigationBarPage> {
               label: "Kullanıcı Paneli",
              ),
 
-             BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Icon(Icons.add),
-              ),
-              label: "Besin Ekle",
-             ),
+            //  BottomNavigationBarItem(
+            //   icon: Padding(
+            //     padding: const EdgeInsets.only(top: 8.0),
+            //     child: Icon(Icons.add),
+            //   ),
+            //   label: "Besin Ekle",
+            //  ),
           ],
           ),
       ),
