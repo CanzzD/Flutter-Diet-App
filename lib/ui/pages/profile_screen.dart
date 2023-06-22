@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rounded_progress_bar/flutter_rounded_progress_bar.dart';
-import 'package:flutter_rounded_progress_bar/rounded_progress_bar_style.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 import 'package:intl/intl.dart';
+import 'dart:async'; 
 import '../../services/add_meal_service.dart';
 import '../../services/calculate_macro_service.dart';
 
@@ -437,15 +436,30 @@ class _RadialPainter extends CustomPainter {
 }
 
 class _MealCard extends StatelessWidget {
-
-   void _removeMeal(String id) {
+  void _removeMeal(String id) {
     print(id);
+  }
+
+  void _clearMealsAtMidnight() {
+    DateTime now = DateTime.now();
+    DateTime midnight = DateTime(now.year, now.month, now.day + 1);
+    Duration timeUntilMidnight = midnight.difference(now);
+
+    Timer(timeUntilMidnight, () {
+      _addMealService.getMealStream().forEach((snapshot) {
+        snapshot.docs.forEach((meal) {
+          _removeMeal(meal.id);
+        });
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
+      _clearMealsAtMidnight();
+
       return StreamBuilder<QuerySnapshot>(
         stream: _addMealService.getMealStream(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -472,37 +486,58 @@ class _MealCard extends StatelessWidget {
                     String mealName = mealsData['mealName'] as String;
                     return Padding(
                       padding: EdgeInsets.all(5),
-                      child: Container(decoration: 
-                      BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         width: 250,
                         height: 300,
-                        child: Card(color: Colors.white, elevation: 20,
-                          child: Container(decoration: BoxDecoration(gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              Color(0xFFE9E9E9), Colors.blueGrey.shade500
-                            ],
-                          ),borderRadius: BorderRadius.circular(40),
-                          border: Border.all(color: Colors.black)
-                          ),
-                            margin: const EdgeInsets.only(right: 8, bottom: 10,top: 10,left: 8),
+                        child: Card(
+                          color: Color(0xFFE9E9E9),
+                          elevation: 50,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Color(0xFFE9E9E9),
+                                  Colors.blueGrey.shade500
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(40),
+                              border: Border.all(color: Colors.black),
+                            ),
+                            margin: const EdgeInsets.only(
+                                right: 8, bottom: 10, top: 10, left: 8),
                             child: Material(
-                              borderRadius: BorderRadius.all(Radius.circular(20)),
-                              elevation: 0,color: Colors.transparent,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              elevation: 0,
+                              color: Colors.transparent,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[                    
-                                CircleAvatar(backgroundImage: NetworkImage(mealsData['imageUrl']),radius: 55,),
-                                Text(mealsData["mealName"],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
-                                Text("Kalori:   " + mealsData["calorie"] + "kcal"),
-                                Text("Karbonhidrat:" + mealsData["carbohydrate"] + "g"),
-                                Text("Protein:  " + mealsData["protein"] + "g"),
-                                Text("Yağ:  " + mealsData["fat"] + "g"),
-
-                                //IconButton(onPressed: () {_removeMeal(meals.id);}, icon: Icon(Icons.delete,color: Colors.white,size: 25,)),
+                                children: <Widget>[
+                                  CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        mealsData['imageUrl']),
+                                    radius: 55,
+                                  ),
+                                  Text(
+                                    mealsData["mealName"],
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  ),
+                                  Text("Kalori:   " +
+                                      mealsData["calorie"] +
+                                      "kcal"),
+                                  Text("Karbonhidrat:" +
+                                      mealsData["carbohydrate"] +
+                                      "g"),
+                                  Text(
+                                      "Protein:  " + mealsData["protein"] + "g"),
+                                  Text("Yağ:  " + mealsData["fat"] + "g"),
                                 ],
                               ),
                             ),
@@ -519,16 +554,15 @@ class _MealCard extends StatelessWidget {
           }
 
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal:75),
+            padding: const EdgeInsets.symmetric(horizontal: 75),
             child: Center(
               child: Text(
                 'Henüz Yemek Eklemediniz',
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Colors.blueGrey
-                ),
-                ),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.blueGrey),
+              ),
             ),
           );
         },
